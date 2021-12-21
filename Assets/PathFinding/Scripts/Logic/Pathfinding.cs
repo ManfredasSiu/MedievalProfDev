@@ -25,7 +25,7 @@ public class Pathfinding
         m_NodeGrid.GetXY(startWorldPosition, out int startX, out int startY);
         m_NodeGrid.GetXY(endWorldPosition, out int endX, out int endY);
 
-        List<PathNode> path = FindPath(startX, startY, endX, endY);
+        var path = FindPath(startX, startY, endX, endY);
         if (path == null)
         {
             return null;

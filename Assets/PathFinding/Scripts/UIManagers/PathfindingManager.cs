@@ -6,7 +6,10 @@ using UnityEngine;
 public class PathfindingManager : MonoBehaviour
 {
     private Pathfinding m_Pathfinding;
-    
+
+    List<Vector3> path;
+    Vector3 nextMilestone;
+
     private void Start()
     {
         m_Pathfinding = new Pathfinding(10, 10);
@@ -16,26 +19,63 @@ public class PathfindingManager : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
+            ResetPath();
             var mousePos = UtilsClass.GetMouseWorldPosition();
 
-            m_Pathfinding.NodeGrid.GetXY(mousePos, out int x, out int y);
-
-            var path = m_Pathfinding.FindPath(0, 0, x, y);
-
-            if(path != null)
-            {
-                for(int i = 0; i < path.Count -1; i++)
-                {
-                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y) * 10f + Vector3.one * 5f, Color.green, 100);
-                }
-            }
+            FindPath(transform.position, mousePos);
         }
 
-        if(Input.GetMouseButtonDown(1))
+        PathControlls();
+
+        if (Input.GetMouseButtonDown(1))
         {
             Vector3 mousepos = UtilsClass.GetMouseWorldPosition();
             m_Pathfinding.NodeGrid.GetXY(mousepos, out int x, out int y);
             m_Pathfinding.GetNode(x,y).isWalkable = !m_Pathfinding.GetNode(x,y).isWalkable;
+        }
+    }
+
+    public void FindPath(Vector3 currentTransformPos, Vector3 targetPos)
+    {
+        path = m_Pathfinding.FindPath(currentTransformPos, targetPos);
+    }
+
+    private void PathControlls()
+    {
+        if (path != null)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, nextMilestone, Time.deltaTime * 10);
+            nextMilestone = path[0];
+            if (Vector3.Distance(transform.position, nextMilestone) <= 0.5f)
+            {
+                SetNewMilestone();
+            }
+
+            if (path.Count <= 0)
+            {
+                ResetPath();
+            }
+
+            else if (Vector3.Distance(transform.position, nextMilestone) > m_Pathfinding.NodeGrid.CellSize * 1.5f)
+            {
+                path = m_Pathfinding.FindPath(transform.position, path[path.Count - 1]);
+                SetNewMilestone();
+            }
+        }
+    }
+
+    private void ResetPath()
+    {
+        path = null;
+        nextMilestone = default(Vector3);
+    }
+
+    private void SetNewMilestone()
+    {
+        path.Remove(path[0]);
+        if(path.Count > 0)
+        {
+            nextMilestone = path[0];
         }
     }
 }
