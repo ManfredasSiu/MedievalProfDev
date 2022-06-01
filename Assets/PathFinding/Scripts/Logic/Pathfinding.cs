@@ -19,8 +19,9 @@ public class Pathfinding
         m_NodeGrid = new GenericGrid<PathNode>(width, height, cellSize, origin, (g, x, y) => new PathNode(g, x, y));
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
+    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, out float fCost)
     {
+        fCost = 9999999999999999;
         m_NodeGrid.GetXY(startWorldPosition, out var startX, out var startY);
         m_NodeGrid.GetXY(endWorldPosition, out var endX, out var endY);
 
@@ -36,6 +37,8 @@ public class Pathfinding
             {
                 vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * m_NodeGrid.CellSize * .5f + m_NodeGrid.Origin);
             }
+
+            fCost = path.Last().fCost;
             return vectorPath;
         }
     }

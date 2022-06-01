@@ -20,10 +20,12 @@ public class TaskManager : MonoBehaviour
 
     List<ArtificialTask> m_DoneTasks = new List<ArtificialTask>();
 
-    public void AddTaskToTheQueue(TaskType type, GameObject gameObject)
+    public void AddTaskToTheQueue(TaskType type, GameObject targetGameObject)
     {
-        var task = new ArtificialTask(type, gameObject);
+        var walkingTask = new ArtificialTask(TaskType.Walking, targetGameObject);
+        var task = new ArtificialTask(type, null);
         
+        m_ArtificialTaskQueue.Enqueue(walkingTask);
         m_ArtificialTaskQueue.Enqueue(task);
     }
     
@@ -40,19 +42,19 @@ public class TaskManager : MonoBehaviour
 
     void TaskSetup()
     {
-        var walkingTask = new ArtificialTask(TaskType.Walking, m_TempMiningTarget);
-        var miningTask = new ArtificialTask(TaskType.Mining, null);
-        var walkingTask2 = new ArtificialTask(TaskType.Walking, m_TempHaulingTarget);
-        var haulingTask = new ArtificialTask(TaskType.Hauling, null);
+        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
+        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
+        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
+        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
+        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
+        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
+        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
+        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
         
-        AssignNewTask(walkingTask);
-        
-        m_ArtificialTaskQueue.Enqueue(miningTask);
-        m_ArtificialTaskQueue.Enqueue(walkingTask2);
-        m_ArtificialTaskQueue.Enqueue(haulingTask);
+        AssignNewTask();
     }
 
-    void OnTaskTargetReached(GameObject taskTarget)
+    void OnTaskTargetReached()
     {
         m_CurrentTask.SetToDone();
         m_DoneTasks.Add(m_CurrentTask);
@@ -61,13 +63,13 @@ public class TaskManager : MonoBehaviour
         {
             return;
         }
-        var nextTask = m_ArtificialTaskQueue.Dequeue();
-        
-        AssignNewTask(nextTask);
+        AssignNewTask();
     }
 
-    void AssignNewTask(ArtificialTask task)
+    void AssignNewTask()
     {
+        var task = m_ArtificialTaskQueue.Dequeue();
+
         m_CurrentTask = task;
         switch (task.taskType)
         {
@@ -75,10 +77,10 @@ public class TaskManager : MonoBehaviour
                 m_ArtificialMovement.SetTarget(task.taskTarget);
                 break;
             case TaskType.Hauling:
-                m_ArtificialMovement.StopForSeconds();
+                m_ArtificialMovement.StopForSeconds(1);
                 break;
             case TaskType.Mining:
-                m_ArtificialMovement.StopForSeconds();
+                m_ArtificialMovement.StopForSeconds(1);
                 break;
         }
     }

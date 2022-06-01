@@ -34,5 +34,10 @@ namespace DefaultNamespace
         {
             m_IsDone = false;
         }
+
+        public void SetTaskTarget(GameObject gameObject)
+        {
+            m_TaskTarget = gameObject;
+        }
     }
 }

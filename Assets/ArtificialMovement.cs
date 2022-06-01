@@ -26,7 +26,7 @@ public class ArtificialMovement : MonoBehaviour
 
     Vector3 yDelta => gameObject.GetYDeltaForTransform();
 
-    public event Action<GameObject> onTargetReached;
+    public event Action onTargetReached;
 
     public void SetTarget(GameObject target)
     {
@@ -39,29 +39,41 @@ public class ArtificialMovement : MonoBehaviour
         StartCoroutine(WaitForSec(seconds));
     }
 
+    public GameObject FindBestTarget(params GameObject[] gameObjects)
+    {
+        GameObject bestGameObject = gameObjects.First();
+        float bestFCost = 99999999999999999;
+        foreach (var target in gameObjects)
+        {
+            var path = m_Pathfinding.FindPath(positionWithDelta, target.transform.position, out var pathFCost);
+            if (path == null)
+            {
+                continue;
+            }
+            
+            if (pathFCost < bestFCost)
+            {
+                bestGameObject = target;
+                bestFCost = pathFCost;
+            }
+        }
+
+        return bestGameObject;
+    }
+
     IEnumerator WaitForSec( float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        onTargetReached?.Invoke(null);
+        onTargetReached?.Invoke();
     }
 
-    void Start()
+    void Awake()
     {
         m_Pathfinding = PathfindingManager.pathfinding;
     }
 
     void Update()
     {
-        if (m_Target == null && Input.GetMouseButtonDown(0))
-        {
-            if (Camera.main != null)
-            {
-                var cameraToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                
-                FindWalkingPathAndSetMilestone(cameraToWorld);
-            }
-        }
-
         if (m_Target != null && m_TargetPathNode != m_Pathfinding.GetNode(m_Target.TransformPositionWithOffset()))
         {
             var targetPos = m_Target.TransformPositionWithOffset();
@@ -77,7 +89,7 @@ public class ArtificialMovement : MonoBehaviour
 
     void FindWalkingPathAndSetMilestone(Vector3 targetPosition)
     {
-        m_Path = m_Pathfinding.FindPath(positionWithDelta, targetPosition);
+        m_Path = m_Pathfinding.FindPath(positionWithDelta, targetPosition, out var pathFCost);
         if (m_Path == null)
         {
             return;
@@ -92,24 +104,6 @@ public class ArtificialMovement : MonoBehaviour
 
         FindWalkingPathAndSetMilestone(targetPosition);
         
-        if (!m_Path.Any())
-        {
-            m_Path = null;
-            return;
-        }
-        
-        m_Path.RemoveAt(m_Path.Count-1);
-    }
-    
-    void PrecalculatePathForTheNextTarget(Vector3 targetPosition)
-    {
-        m_TargetPathNode = m_Pathfinding.GetNode(targetPosition);
-
-        m_Path = m_Pathfinding.FindPath(m_Path.Last(), targetPosition);
-        if (m_Path == null)
-        {
-            return;
-        }
         if (!m_Path.Any())
         {
             m_Path = null;
@@ -133,7 +127,7 @@ public class ArtificialMovement : MonoBehaviour
             if (!m_Path.Any())
             {
                 m_Path = null;
-                onTargetReached?.Invoke(m_Target);
+                onTargetReached?.Invoke();
 
                 m_Target = null;
                 return;
