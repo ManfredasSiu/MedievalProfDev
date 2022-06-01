@@ -1,5 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using PathFinding.Scripts.UIManagers;
 using UnityEngine;
 
@@ -9,13 +12,11 @@ public class ArtificialMovement : MonoBehaviour
     float m_Speed = 5f;
 
     [SerializeField]
-    public GameObject target;
+    GameObject m_Target;
     
     Pathfinding m_Pathfinding;
 
-    PathNode m_TargetPathNode = null;
-
-    Rigidbody2D m_Rigidbody;
+    PathNode m_TargetPathNode;
     
     List<Vector3> m_Path;
 
@@ -24,7 +25,25 @@ public class ArtificialMovement : MonoBehaviour
     Vector3 positionWithDelta => gameObject.TransformPositionWithOffset();
 
     Vector3 yDelta => gameObject.GetYDeltaForTransform();
-    
+
+    public event Action<GameObject> onTargetReached;
+
+    public void SetTarget(GameObject target)
+    {
+        m_Target = target;
+    }
+
+    public void StopForSeconds(float seconds = 5f)
+    {
+        m_Target = null;
+        StartCoroutine(WaitForSec(seconds));
+    }
+
+    IEnumerator WaitForSec( float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        onTargetReached?.Invoke(null);
+    }
 
     void Start()
     {
@@ -33,7 +52,7 @@ public class ArtificialMovement : MonoBehaviour
 
     void Update()
     {
-        if (target == null && Input.GetMouseButtonDown(0))
+        if (m_Target == null && Input.GetMouseButtonDown(0))
         {
             if (Camera.main != null)
             {
@@ -43,9 +62,9 @@ public class ArtificialMovement : MonoBehaviour
             }
         }
 
-        if (target != null && m_TargetPathNode != m_Pathfinding.GetNode(target.TransformPositionWithOffset()))
+        if (m_Target != null && m_TargetPathNode != m_Pathfinding.GetNode(m_Target.TransformPositionWithOffset()))
         {
-            var targetPos = target.TransformPositionWithOffset();
+            var targetPos = m_Target.TransformPositionWithOffset();
 
             FindPathToTheTargetAndSetMilestone(targetPos);
         }
@@ -81,6 +100,24 @@ public class ArtificialMovement : MonoBehaviour
         
         m_Path.RemoveAt(m_Path.Count-1);
     }
+    
+    void PrecalculatePathForTheNextTarget(Vector3 targetPosition)
+    {
+        m_TargetPathNode = m_Pathfinding.GetNode(targetPosition);
+
+        m_Path = m_Pathfinding.FindPath(m_Path.Last(), targetPosition);
+        if (m_Path == null)
+        {
+            return;
+        }
+        if (!m_Path.Any())
+        {
+            m_Path = null;
+            return;
+        }
+        
+        m_Path.RemoveAt(m_Path.Count-1);
+    }
 
     void ControlledMovement()
     {
@@ -96,6 +133,9 @@ public class ArtificialMovement : MonoBehaviour
             if (!m_Path.Any())
             {
                 m_Path = null;
+                onTargetReached?.Invoke(m_Target);
+
+                m_Target = null;
                 return;
             }
             

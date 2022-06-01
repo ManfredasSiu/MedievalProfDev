@@ -182,7 +182,7 @@ public class Pathfinding
         return m_NodeGrid.GetGridObject(worldPos).percentileSlowness;
     }
 
-    private List<PathNode> CalculatePath(PathNode endNode)
+    List<PathNode> CalculatePath(PathNode endNode)
     {
         List<PathNode> path = new List<PathNode>();
         path.Add(endNode);
