@@ -1,7 +1,6 @@
 using Assets.Grid.Scripts.Map.Logic;
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Pathfinding
@@ -15,15 +14,15 @@ public class Pathfinding
 
     public GenericGrid<PathNode> NodeGrid => m_NodeGrid;
 
-    public Pathfinding(int width, int height)
+    public Pathfinding(int width, int height, float cellSize = 10f, Vector3 origin = default)
     {
-        m_NodeGrid = new GenericGrid<PathNode>(width, height, 10f, Vector3.zero, (GenericGrid<PathNode> g, int x, int y) => new PathNode(g, x, y));
+        m_NodeGrid = new GenericGrid<PathNode>(width, height, cellSize, origin, (g, x, y) => new PathNode(g, x, y));
     }
 
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
     {
-        m_NodeGrid.GetXY(startWorldPosition, out int startX, out int startY);
-        m_NodeGrid.GetXY(endWorldPosition, out int endX, out int endY);
+        m_NodeGrid.GetXY(startWorldPosition, out var startX, out var startY);
+        m_NodeGrid.GetXY(endWorldPosition, out var endX, out var endY);
 
         var path = FindPath(startX, startY, endX, endY);
         if (path == null)
@@ -32,10 +31,10 @@ public class Pathfinding
         }
         else
         {
-            List<Vector3> vectorPath = new List<Vector3>();
-            foreach (PathNode pathNode in path)
+            var vectorPath = new List<Vector3>();
+            foreach (var pathNode in path)
             {
-                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * m_NodeGrid.CellSize * .5f);
+                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * m_NodeGrid.CellSize * .5f + m_NodeGrid.Origin);
             }
             return vectorPath;
         }
@@ -46,9 +45,8 @@ public class Pathfinding
         var startNode = m_NodeGrid.GetGridObject(startX, startY);
         var endNode = m_NodeGrid.GetGridObject(endX, endY);
 
-        if (startNode == null || endNode == null)
+        if (startNode == null || endNode == null || !endNode.isWalkable)
         {
-            // Invalid Path
             return null;
         }
 
@@ -81,7 +79,9 @@ public class Pathfinding
             m_OpenList.Remove(currentNode);
             m_ClosedList.Add(currentNode);
 
-            foreach(var neighbor in GetNeighbourList(currentNode))
+            var neighbourList = GetNeighbourList(currentNode);
+            
+            foreach(var neighbor in neighbourList)
             {
                 if (m_ClosedList.Contains(neighbor))
                 {
@@ -91,7 +91,20 @@ public class Pathfinding
                 if (!neighbor.isWalkable)
                 {
                     m_ClosedList.Add(neighbor);
+
                     continue;
+                }
+                
+                if (neighbor.isWalkable && neighbor.x != currentNode.x && neighbor.y != currentNode.y)
+                {
+                    if (neighbourList.Any(node => !node.isWalkable 
+                                                  && (node.x == neighbor.x + 1 
+                                                  || node.x == neighbor.x - 1 
+                                                  || node.y == neighbor.y + 1 
+                                                  || node.y == neighbor.y - 1)))
+                    {
+                        continue;
+                    }
                 }
 
                 var tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbor);
@@ -158,6 +171,16 @@ public class Pathfinding
     {
         return m_NodeGrid.GetGridObject(x, y);
     }
+    
+    public PathNode GetNode(Vector3 worldPos)
+    {
+        return m_NodeGrid.GetGridObject(worldPos);
+    }
+    
+    public float GetSlownessAtCurrentPos(Vector3 worldPos)
+    {
+        return m_NodeGrid.GetGridObject(worldPos).percentileSlowness;
+    }
 
     private List<PathNode> CalculatePath(PathNode endNode)
     {
@@ -182,7 +205,10 @@ public class Pathfinding
         int yDistance = Mathf.Abs(a.y - b.y);
         int remaining = Mathf.Abs(xDistance - yDistance);
 
-        return k_MoveDiagonaltCost* Mathf.Min(xDistance, yDistance) + k_MoveStraightCost * remaining; 
+        int moveDiagonalCost = (int)(a.moveDiagonalCost + b.moveDiagonalCost);
+        int moveStraightCost = (int)(a.moveStraightCost + b.moveStraightCost);
+
+        return moveDiagonalCost * Mathf.Min(xDistance, yDistance) + moveStraightCost * remaining; 
     }
 
     private PathNode GetLowestFCostNode(List<PathNode> pathNodeList)

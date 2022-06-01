@@ -18,16 +18,20 @@ namespace Assets.Grid.Scripts.Map.Logic
 
         public event Action<int, int> OnGridValueChangedEvent;
 
+        public Vector3 Origin => m_OriginPos;
+        
         public int Width => m_Width;
+        
         public int Height => m_Height;
+        
         public float CellSize => m_CellSize;
 
         public GenericGrid(int width, int height, float cellSize, Vector3 originPos, Func<GenericGrid<TGridObject>, int, int,TGridObject> createGridObject)
         {
-            this.m_Width = width;
-            this.m_Height = height;
-            this.m_CellSize = cellSize;
-            this.m_OriginPos = originPos;
+            m_Width = width;
+            m_Height = height;
+            m_CellSize = cellSize;
+            m_OriginPos = originPos;
 
             m_GridArray = new TGridObject[width, height];
             m_DebugTextArray = new TextMesh[width, height];
@@ -40,7 +44,7 @@ namespace Assets.Grid.Scripts.Map.Logic
                 }
             }
 
-            var showDebug = true;
+            var showDebug = false;
 
             if (showDebug)
             {
@@ -48,7 +52,7 @@ namespace Assets.Grid.Scripts.Map.Logic
                 {
                     for (int y = 0; y < m_GridArray.GetLength(1); y++)
                     {
-                        m_DebugTextArray[x, y] = UtilsClass.CreateWorldText(m_GridArray[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 20, Color.white, TextAnchor.MiddleCenter);
+                         m_DebugTextArray[x, y] = UtilsClass.CreateWorldText(x + " " + y, null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 5, Color.white, TextAnchor.MiddleCenter);
 
                         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100, false);
                         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100, false);

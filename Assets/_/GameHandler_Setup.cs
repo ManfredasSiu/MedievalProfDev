@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using CodeMonkey;
-using CodeMonkey.Utils;
-using CodeMonkey.MonoBehaviours;
+﻿using UnityEngine;
+using CameraFollow = CodeMonkey.MonoBehaviours.CameraFollow;
+
 
 public class GameHandler_Setup : MonoBehaviour {
 
