@@ -44,15 +44,15 @@ namespace Assets.Grid.Scripts.Map.Logic
                 }
             }
 
-            var showDebug = false;
+            var showDebug = true;
 
-            if (showDebug)
+            if (showDebug == true)
             {
                 for (int x = 0; x < m_GridArray.GetLength(0); x++)
                 {
                     for (int y = 0; y < m_GridArray.GetLength(1); y++)
                     {
-                         m_DebugTextArray[x, y] = UtilsClass.CreateWorldText(x + " " + y, null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 5, Color.white, TextAnchor.MiddleCenter);
+                         /*m_DebugTextArray[x, y] = UtilsClass.CreateWorldText(x + " " + y, null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f, 5, Color.white, TextAnchor.MiddleCenter);*/
 
                         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100, false);
                         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100, false);
