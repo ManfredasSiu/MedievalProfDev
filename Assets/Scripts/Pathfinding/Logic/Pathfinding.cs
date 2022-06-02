@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class Pathfinding
 {
-    readonly int k_MoveStraightCost = 10;
-    readonly int k_MoveDiagonaltCost = 14;
-
     GenericGrid<PathNode> m_NodeGrid;
     List<PathNode> m_OpenList;
     List<PathNode> m_ClosedList;
