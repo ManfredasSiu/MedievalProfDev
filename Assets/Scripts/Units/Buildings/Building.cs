@@ -17,7 +17,6 @@ public class Building
     //building manager
     
     public GameObject BuildingSprite { get; }
-    
     public Transform Transform { get; }
     public BuildingData Data { get; }
 

@@ -9,5 +9,5 @@ public class GameResources : MonoBehaviour
         {"resource1",new GameResource("Wood", 1000)},
         {"resource2",new GameResource("Food", 1000)},
         {"resource3",new GameResource("Mood", 1000)},
-};
+    };
 }

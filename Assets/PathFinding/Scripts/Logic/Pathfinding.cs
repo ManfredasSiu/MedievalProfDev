@@ -182,6 +182,12 @@ public class Pathfinding
         return m_NodeGrid.GetGridObject(worldPos).percentileSlowness;
     }
 
+    public Vector3 GetNodeCenterPosition(Vector3 worldPos)
+    {
+        var node = GetNode(worldPos);
+        return m_NodeGrid.GetWorldPosition(node.x, node.y);
+    }
+
     private List<PathNode> CalculatePath(PathNode endNode)
     {
         List<PathNode> path = new List<PathNode>();
