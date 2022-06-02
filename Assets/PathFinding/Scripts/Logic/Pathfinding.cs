@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Pathfinding
 {
-    private readonly int k_MoveStraightCost = 10;
-    private readonly int k_MoveDiagonaltCost = 14;
+    readonly int k_MoveStraightCost = 10;
+    readonly int k_MoveDiagonaltCost = 14;
 
-    private GenericGrid<PathNode> m_NodeGrid;
-    private List<PathNode> m_OpenList;
-    private List<PathNode> m_ClosedList;
+    GenericGrid<PathNode> m_NodeGrid;
+    List<PathNode> m_OpenList;
+    List<PathNode> m_ClosedList;
 
     public GenericGrid<PathNode> NodeGrid => m_NodeGrid;
 
@@ -19,8 +19,9 @@ public class Pathfinding
         m_NodeGrid = new GenericGrid<PathNode>(width, height, cellSize, origin, (g, x, y) => new PathNode(g, x, y));
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
+    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, out float fCost)
     {
+        fCost = float.MaxValue;
         m_NodeGrid.GetXY(startWorldPosition, out var startX, out var startY);
         m_NodeGrid.GetXY(endWorldPosition, out var endX, out var endY);
 
@@ -36,6 +37,8 @@ public class Pathfinding
             {
                 vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * m_NodeGrid.CellSize * .5f + m_NodeGrid.Origin);
             }
+
+            fCost = path.Last().fCost;
             return vectorPath;
         }
     }
@@ -182,7 +185,7 @@ public class Pathfinding
         return m_NodeGrid.GetGridObject(worldPos).percentileSlowness;
     }
 
-    private List<PathNode> CalculatePath(PathNode endNode)
+    List<PathNode> CalculatePath(PathNode endNode)
     {
         List<PathNode> path = new List<PathNode>();
         path.Add(endNode);
