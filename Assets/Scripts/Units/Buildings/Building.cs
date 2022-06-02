@@ -60,7 +60,7 @@ public class Building
     public void Place()
     {
         _placement = BuildingPlacement.FIXED;
-        Transform.GetComponent<BoxCollider2D>().isTrigger = false;
+        Transform.GetComponent<Collider2D>().isTrigger = false;
         SetMaterials();
 
         foreach (var resource in Data.cost)
