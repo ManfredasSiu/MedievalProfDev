@@ -16,11 +16,11 @@ public class UIManager : MonoBehaviour
         foreach (var resource in GameResources.GAME_RESOURCES)
         {
             var display = Instantiate(gameResourceDisplayPrefab, resourcesUIParent);
-            display.name = resource.Name;
-            _resourceTexts[resource.Name] = display.transform.Find("ResourceName").GetComponent<TMP_Text>();
-            _SetResourceText(resource.Name, resource.Name);
-            _resourceTexts[resource.Name] = display.transform.Find("Amount").GetComponent<TMP_Text>();
-            _SetResourceText(resource.Name, resource.Amount.ToString());
+            display.name = resource.Value.Name;
+            _resourceTexts[resource.Value.Name] = display.transform.Find("ResourceName").GetComponent<TMP_Text>();
+            _SetResourceText(resource.Value.Name, resource.Value.Name);
+            _resourceTexts[resource.Value.Name] = display.transform.Find("Amount").GetComponent<TMP_Text>();
+            _SetResourceText(resource.Value.Name, resource.Value.Amount.ToString());
         }
     }
     
