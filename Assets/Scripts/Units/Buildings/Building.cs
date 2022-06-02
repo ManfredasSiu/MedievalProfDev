@@ -15,6 +15,7 @@ public class Building
     private int _currentHealth;
     public BuildingPlacement _placement;
     private List<Material> _materials;
+    private SpriteRenderer _spriteRenderer;
     public BuildingManager BuildingManager { get; }
     public bool IsFixed => _placement == BuildingPlacement.FIXED;
     public bool HasValidPlacement => _placement == BuildingPlacement.VALID;
@@ -32,6 +33,7 @@ public class Building
         Transform = g.transform;
         BuildingManager = Transform.GetComponent<BuildingManager>();
         BuildingSprite = Transform.Find("Sprite").gameObject;
+        _spriteRenderer = BuildingSprite.GetComponent<SpriteRenderer>();
         _placement = BuildingPlacement.VALID;
 
         _materials = new List<Material>();
@@ -90,7 +92,7 @@ public class Building
             default:
                 return;
         }
-        Transform.Find("Sprite").GetComponent<Renderer>().materials = materials.ToArray();
+        _spriteRenderer.materials = materials.ToArray();
     }
     
     public bool CanBuy()
