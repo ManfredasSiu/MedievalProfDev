@@ -7,30 +7,30 @@ namespace PathFinding.Scripts.UIManagers
 {
     public class PathfindingManager : MonoBehaviour
     {
-        private static Pathfinding m_Pathfinding;
+        static Pathfinding m_Pathfinding;
 
-        private static GridLayout m_UnifiedGrid; 
+        static GridLayout m_UnifiedGrid; 
 
         [SerializeField] 
-        private Vector3 m_OriginPosition = Vector3.zero;
+        Vector3 m_OriginPosition = Vector3.zero;
         
         [SerializeField] 
-        private int m_Width;
+        int m_Width;
 
         [SerializeField] 
-        private int m_Height;
+        int m_Height;
 
         [SerializeField] 
-        private float m_CellSize;
+        float m_CellSize;
 
         [SerializeField] 
-        private Tilemap m_PathTilemap;
+        Tilemap m_PathTilemap;
         
         [SerializeField] 
-        private Tilemap m_ColliderTilemap;
+        Tilemap m_ColliderTilemap;
 
         [SerializeField] 
-        private TileScriptableObject m_TileStructuresContainer;
+        TileScriptableObject m_TileStructuresContainer;
 
         public static Pathfinding pathfinding => m_Pathfinding;
 
@@ -90,7 +90,7 @@ namespace PathFinding.Scripts.UIManagers
             }
         }
 
-        private Pathfinding CreatePathfinding()
+        Pathfinding CreatePathfinding()
         {
             var currentPathFinding = new Pathfinding(m_Width, m_Height, m_CellSize, m_OriginPosition);
             var grid = currentPathFinding.NodeGrid;
