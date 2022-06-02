@@ -5,6 +5,7 @@ namespace DefaultNamespace
     public enum TaskType
     {
         Walking,
+        Waiting,
         Mining,
         Hauling
     }
@@ -23,7 +24,7 @@ namespace DefaultNamespace
 
         public GameObject taskTarget => m_TaskTarget;
 
-        public ArtificialTask(TaskType taskType, GameObject taskTarget)
+        public ArtificialTask(TaskType taskType, GameObject taskTarget = null)
         {
             m_TaskType = taskType;
             m_IsDone = false;

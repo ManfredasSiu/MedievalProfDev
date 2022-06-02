@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -12,74 +13,122 @@ public class TaskManager : MonoBehaviour
     [SerializeField]
     GameObject m_TempHaulingTarget;
     
-    ArtificialTask m_CurrentTask;
+    ArtificialTask m_CurrentGranularTask;
+    
+    ComplexTask m_CurrentComplexTask;
     
     ArtificialMovement m_ArtificialMovement;
     
-    Queue<ArtificialTask> m_ArtificialTaskQueue;
+    Queue<ArtificialTask> m_GranularTaskQueue;
+    
+    Queue<ComplexTask> m_ComplexTaskQueue;
 
-    List<ArtificialTask> m_DoneTasks = new List<ArtificialTask>();
+    List<ArtificialTask> m_DoneTasks;
 
-    public void AddTaskToTheQueue(TaskType type, GameObject targetGameObject)
+    public void AddTaskToTheQueue(ComplexTask complexTask)
     {
-        var walkingTask = new ArtificialTask(TaskType.Walking, targetGameObject);
-        var task = new ArtificialTask(type, null);
-        
-        m_ArtificialTaskQueue.Enqueue(walkingTask);
-        m_ArtificialTaskQueue.Enqueue(task);
+        m_ComplexTaskQueue.Enqueue(complexTask);
     }
     
     void Start()
     {
         m_ArtificialMovement = GetComponent<ArtificialMovement>();
         
-        m_ArtificialTaskQueue = new Queue<ArtificialTask>();
+        m_GranularTaskQueue = new Queue<ArtificialTask>();
+        m_ComplexTaskQueue = new Queue<ComplexTask>();
+        m_DoneTasks = new List<ArtificialTask>();
 
         SubscribeToMovementEvents();
         
         TaskSetup();
     }
 
+    void Update()
+    {
+        if (m_CurrentComplexTask == null && m_ComplexTaskQueue.Any())
+        {
+            m_CurrentComplexTask = m_ComplexTaskQueue.Dequeue();
+            foreach (var task in m_CurrentComplexTask.granularTasks)
+            {
+                m_GranularTaskQueue.Enqueue(task);
+            }
+        }
+
+        if (m_CurrentGranularTask == null && m_GranularTaskQueue.Any())
+        {
+            ExecuteGranularTask();
+        }
+    }
+
     void TaskSetup()
     {
-        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
-        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
-        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
-        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
-        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
-        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
-        AddTaskToTheQueue(TaskType.Mining, m_TempMiningTarget);
-        AddTaskToTheQueue(TaskType.Hauling, m_TempHaulingTarget);
+        var miningTask = CreateTaskByType(TaskType.Mining, true);
+        var haulingTask = CreateTaskByType(TaskType.Hauling, true);
         
-        AssignNewTask();
+        AddTaskToTheQueue(miningTask);
+        AddTaskToTheQueue(haulingTask);
+    }
+
+    ComplexTask CreateTaskByType(TaskType type, bool looping)
+    {
+        switch (type)
+        {
+            case TaskType.Mining:
+                var miningTask = new ComplexTask(TaskType.Mining, m_TempMiningTarget, looping);
+
+                var miningGranularTaskList = new List<ArtificialTask>();
+                miningGranularTaskList.Add(new ArtificialTask(TaskType.Walking, m_TempMiningTarget));
+                miningGranularTaskList.Add(new ArtificialTask(TaskType.Waiting));
+                
+                miningTask.AssignGranularTasks(miningGranularTaskList);
+               
+                return miningTask;
+            case TaskType.Hauling:
+                var haulingTask = new ComplexTask(TaskType.Mining, m_TempHaulingTarget, looping);
+
+                var haulingGranularTaskList = new List<ArtificialTask>();
+                haulingGranularTaskList.Add(new ArtificialTask(TaskType.Walking, m_TempHaulingTarget));
+                haulingGranularTaskList.Add(new ArtificialTask(TaskType.Waiting));
+                
+                haulingTask.AssignGranularTasks(haulingGranularTaskList);
+                
+                return haulingTask;
+        }
+
+        return null;
     }
 
     void OnTaskTargetReached()
     {
-        m_CurrentTask.SetToDone();
-        m_DoneTasks.Add(m_CurrentTask);
+        m_CurrentGranularTask.SetToDone();
+        m_DoneTasks.Add(m_CurrentGranularTask);
         
-        if (!m_ArtificialTaskQueue.Any())
+        if (!m_GranularTaskQueue.Any())
         {
+            m_CurrentComplexTask.SetToDone();
+            if (m_CurrentComplexTask.isLoop)
+            {
+                AddTaskToTheQueue(new ComplexTask(m_CurrentComplexTask));
+            }
+
+            m_CurrentGranularTask = null;
+            m_CurrentComplexTask = null;
             return;
         }
-        AssignNewTask();
+        ExecuteGranularTask();
     }
 
-    void AssignNewTask()
+    void ExecuteGranularTask()
     {
-        var task = m_ArtificialTaskQueue.Dequeue();
+        var task = m_GranularTaskQueue.Dequeue();
 
-        m_CurrentTask = task;
+        m_CurrentGranularTask = task;
         switch (task.taskType)
         {
             case TaskType.Walking:
                 m_ArtificialMovement.SetTarget(task.taskTarget);
                 break;
-            case TaskType.Hauling:
-                m_ArtificialMovement.StopForSeconds(1);
-                break;
-            case TaskType.Mining:
+            case TaskType.Waiting:
                 m_ArtificialMovement.StopForSeconds(1);
                 break;
         }
