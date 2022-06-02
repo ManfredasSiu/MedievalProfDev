@@ -21,6 +21,6 @@ public class BuildingData : ScriptableObject
 
     public bool CanBuy()
     {
-        return cost.All(resource => GameResources.GAME_RESOURCES[resource.Name].Amount >= resource.Amount);
+        return cost.All(resource => GameResources.GAME_RESOURCES[resource.code].amount >= resource.amount);
     }
 }

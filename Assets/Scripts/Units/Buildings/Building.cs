@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public enum BuildingPlacement
@@ -12,9 +13,11 @@ public enum BuildingPlacement
 public class Building
 {
     private int _currentHealth;
-    private BuildingPlacement _placement;
+    public BuildingPlacement _placement;
     private List<Material> _materials;
-    //building manager
+    public BuildingManager BuildingManager { get; }
+    public bool IsFixed => _placement == BuildingPlacement.FIXED;
+    public bool HasValidPlacement => _placement == BuildingPlacement.VALID;
     
     public GameObject BuildingSprite { get; }
     public Transform Transform { get; }
@@ -27,21 +30,46 @@ public class Building
 
         var g = GameObject.Instantiate(data.prefab);
         Transform = g.transform;
-        //set building manager
+        BuildingManager = Transform.GetComponent<BuildingManager>();
         BuildingSprite = Transform.Find("Sprite").gameObject;
         _placement = BuildingPlacement.VALID;
 
         _materials = new List<Material>();
-        foreach (var material in Transform.Find("Mesh").GetComponent<SpriteRenderer>().materials)
+        foreach (var material in Transform.Find("Sprite").GetComponent<SpriteRenderer>().materials)
         {
             _materials.Add(new Material(material));
         }
         
+        SetMaterials();
+        
+    }
+
+    public void CheckValidPlacement(Vector3 mousePos)
+    {
+        if (_placement == BuildingPlacement.FIXED) return;
+        _placement = BuildingManager.CheckPlacement(mousePos) ? BuildingPlacement.VALID : BuildingPlacement.INVALID;
     }
 
     public void SetMaterials()
     {
         SetMaterials(_placement);
+    }
+
+    public void Place()
+    {
+        _placement = BuildingPlacement.FIXED;
+        Transform.GetComponent<BoxCollider2D>().isTrigger = false;
+        SetMaterials();
+
+        foreach (var resource in Data.cost)
+        {
+            GameResources.GAME_RESOURCES[resource.code].AddOrRemove(-resource.amount);
+        }
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        Transform.position = position;
     }
 
     public void SetMaterials(BuildingPlacement placement)
@@ -62,7 +90,29 @@ public class Building
             default:
                 return;
         }
-        Transform.Find("Mesh").GetComponent<Renderer>().materials = materials.ToArray();
+        Transform.Find("Sprite").GetComponent<Renderer>().materials = materials.ToArray();
+    }
+    
+    public bool CanBuy()
+    {
+        return Data.CanBuy();
+    }
+
+    
+    public int DataIndex
+    {
+        get
+        {
+            for (var i = 0; i < Globals.BUILDING_DATA.Length; i++)
+            {
+                if (Globals.BUILDING_DATA[i].code == Data.code)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
     }
     
     private List<Material> _LoadMaterial(string path)

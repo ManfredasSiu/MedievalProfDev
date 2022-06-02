@@ -28,7 +28,7 @@ public class BuildingManager : UnitManager
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             if (mainCam != null)
             {
@@ -37,13 +37,34 @@ public class BuildingManager : UnitManager
                 var g = Instantiate(Resources.Load("Prefabs/Buildings/House")) as GameObject;
                 g.transform.position = centerPos;
             }
-        }
+        }*/
 
     }
 
     public void Initialize(Building building)
     {
         _building = building;
+    }
+
+    public bool CheckPlacement(Vector3 mousePos)
+    {
+        if (_building == null) return false;
+        if (_building.IsFixed) return false;
+        var validPlacement = _HasValidPlacement(mousePos);
+        _building.SetMaterials(!validPlacement ? BuildingPlacement.INVALID : BuildingPlacement.VALID);
+        return validPlacement;
+    }
+
+    protected override bool IsActive()
+    {
+        return _building.IsFixed;
+    }
+    
+
+    private bool _HasValidPlacement(Vector3 mousePos)
+    {
+        //TODO
+        return PathfindingManager.pathfinding.GetNode(PathfindingManager.pathfinding.GetNodeCenterPosition(mousePos)).isWalkable;
     }
     
     
