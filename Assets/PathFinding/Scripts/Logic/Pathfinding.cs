@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Pathfinding
 {
-    private readonly int k_MoveStraightCost = 10;
-    private readonly int k_MoveDiagonaltCost = 14;
+    readonly int k_MoveStraightCost = 10;
+    readonly int k_MoveDiagonaltCost = 14;
 
-    private GenericGrid<PathNode> m_NodeGrid;
-    private List<PathNode> m_OpenList;
-    private List<PathNode> m_ClosedList;
+    GenericGrid<PathNode> m_NodeGrid;
+    List<PathNode> m_OpenList;
+    List<PathNode> m_ClosedList;
 
     public GenericGrid<PathNode> NodeGrid => m_NodeGrid;
 
@@ -21,7 +21,7 @@ public class Pathfinding
 
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition, out float fCost)
     {
-        fCost = 9999999999999999;
+        fCost = float.MaxValue;
         m_NodeGrid.GetXY(startWorldPosition, out var startX, out var startY);
         m_NodeGrid.GetXY(endWorldPosition, out var endX, out var endY);
 

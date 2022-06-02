@@ -42,7 +42,7 @@ public class ArtificialMovement : MonoBehaviour
     public GameObject FindBestTarget(params GameObject[] gameObjects)
     {
         GameObject bestGameObject = gameObjects.First();
-        float bestFCost = 99999999999999999;
+        float bestFCost = float.MaxValue;
         foreach (var target in gameObjects)
         {
             var path = m_Pathfinding.FindPath(positionWithDelta, target.transform.position, out var pathFCost);
