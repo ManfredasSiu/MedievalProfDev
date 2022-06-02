@@ -63,7 +63,7 @@ public class CameraPanAndZoom : MonoBehaviour
         {
             direction.y += 1;
         }
-        if (yCoordinate <= Screen.height * 0.05f)
+        if (yCoordinate <= Screen.height * 0.1f)
         {
             direction.y -= 1;
         }
@@ -71,7 +71,7 @@ public class CameraPanAndZoom : MonoBehaviour
         {
             direction.x += 1;
         }
-        if (xCoordinate <= Screen.width * 0.05f)
+        if (xCoordinate <= Screen.width * 0.1f)
         {
             direction.x -= 1;
         }
