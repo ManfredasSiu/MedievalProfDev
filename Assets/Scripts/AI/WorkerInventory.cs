@@ -19,7 +19,7 @@ public class WorkerInventory : MonoBehaviour
     
     void Start()
     {
-        ClearInventory();
+        ReformInventory();
     }
 
     public int IncrementResource(GameResourceEnum resourceType, int increment)
@@ -64,7 +64,7 @@ public class WorkerInventory : MonoBehaviour
         return leftAmount;
     }
 
-    void ClearInventory()
+    void ReformInventory()
     {
         foreach (var resourceType in (GameResourceEnum[])Enum.GetValues(typeof(GameResourceEnum)))
         {
