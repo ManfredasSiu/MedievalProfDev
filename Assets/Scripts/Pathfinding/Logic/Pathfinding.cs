@@ -190,19 +190,31 @@ public class Pathfinding
 
     public void SetWalkable(Vector3 lowerLeftPos, Vector3 upperRightPos, bool isWalkable)
     {
+        var affectedNodes = GetNodes(lowerLeftPos, upperRightPos);
+
+        affectedNodes.All(node => node.isWalkable = false);
+    }
+
+    public List<PathNode> GetNodes(Vector3 lowerLeftPos, Vector3 upperRightPos)
+    {
         var currentPos = lowerLeftPos;
+
+        var nodeList = new List<PathNode>();
         while (currentPos.y < upperRightPos.y)
         {
             while (currentPos.x < upperRightPos.x)
             {
-                GetNode(currentPos).isWalkable = isWalkable;
+                var node = GetNode(currentPos);
                 
+                nodeList.Add(node);
                 currentPos.x += m_NodeGrid.CellSize;
             }
 
             currentPos.x = lowerLeftPos.x;
             currentPos.y += m_NodeGrid.CellSize;
         }
+
+        return nodeList;
     }
 
     private List<PathNode> CalculatePath(PathNode endNode)
