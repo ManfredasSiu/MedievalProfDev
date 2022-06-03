@@ -191,6 +191,20 @@ public class Pathfinding
         return node == null ? worldPos : m_NodeGrid.GetWorldPosition(node.x, node.y);
     }
 
+    public void SetWalkable(Vector3 lowerLeftPos, Vector3 upperRightPos, bool isWalkable)
+    {
+        var currentPos = lowerLeftPos;
+        while (currentPos.y <= upperRightPos.y)
+        {
+            while (currentPos.x <= upperRightPos.x)
+            {
+                GetNode(currentPos).isWalkable = isWalkable;
+                currentPos.x += m_NodeGrid.CellSize;
+            }
+            currentPos.y += m_NodeGrid.CellSize;
+        }
+    }
+
     private List<PathNode> CalculatePath(PathNode endNode)
     {
         List<PathNode> path = new List<PathNode>();
