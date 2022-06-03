@@ -52,17 +52,26 @@ namespace PathFinding.Scripts.UIManagers
             {
                 Tilemap.tilemapTileChanged += UpdateWall;
             }
+            
             BuildingPlacer.RaiseBuildingPlacedEvent += UpdateGridWalkability;
+            
             m_Pathfinding = CreatePathfinding();
         }
 
-        private void UpdateGridWalkability(object sender, BuildingPlacedEvent e)
+        void UpdateGridWalkability(object sender, BuildingPlacedEvent e)
         {
+            var buildingGameObject = e.Building;
+            var renderers = buildingGameObject.GetComponentsInChildren<SpriteRenderer>();
+            
+            buildingGameObject.transform.position.GetUpperAndLowerPos(renderers, out var lowerLeftPos, out var upperRightPos);
+
+            pathfinding.SetWalkable(lowerLeftPos, upperRightPos, false);
+            
             m_Pathfinding.GetNode(e.Building.transform.position).isWalkable = false;
             OnPathfindingChanged?.Invoke();
         }
 
-        private void UpdateWall(Tilemap tilemap, Tilemap.SyncTile[] changedTiles)
+        void UpdateWall(Tilemap tilemap, Tilemap.SyncTile[] changedTiles)
         {
             var grid = m_Pathfinding.NodeGrid;
             var wallTileLists = m_TileStructuresContainer.tileDataStructures.Where(tileData =>
