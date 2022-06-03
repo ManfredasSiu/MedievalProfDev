@@ -2688,6 +2688,7 @@ GameObject:
   - component: {fileID: 775420258}
   - component: {fileID: 775420261}
   - component: {fileID: 775420262}
+  - component: {fileID: 775420263}
   m_Layer: 0
   m_Name: bitmap_Head
   m_TagString: Untagged
@@ -2807,6 +2808,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TempMiningTarget: {fileID: 100914411}
   m_TempHaulingTarget: {fileID: 699231181}
+--- !u!114 &775420263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 775420257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42cfbe1af34104187d8b73362b1b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &884714914
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,31 +13,62 @@ public class WorkerInventory : MonoBehaviour
     
     public Dictionary<GameResourceEnum, int> resources => m_Resources;
 
+    public bool isEmpty => m_CurrentResourceAmount <= 0;
+
+    public bool isFull => m_CurrentResourceAmount >= m_MaxAmount;
+    
     void Start()
+    {
+        ClearInventory();
+    }
+
+    public int IncrementResource(GameResourceEnum resourceType, int increment)
+    {
+        if (isFull)
+        {
+            return increment;
+        }
+
+        var lastDelta = increment;
+        var leftAmount = 0;
+        
+        if (m_CurrentResourceAmount + increment > m_MaxAmount)
+        {
+            lastDelta = m_MaxAmount - m_CurrentResourceAmount;
+            leftAmount = increment - lastDelta;
+        }
+
+        m_Resources[resourceType] += lastDelta;
+
+        return leftAmount;
+    }
+
+    public int DecrementResource(GameResourceEnum resourceType, int decrement)
+    {
+        if (isEmpty)
+        {
+            return decrement;
+        }
+
+        var lastDelta = decrement;
+        var leftAmount = 0;
+        
+        if (m_Resources[resourceType] - lastDelta < 0)
+        {
+            lastDelta = m_CurrentResourceAmount;
+            leftAmount = decrement - lastDelta;
+        }
+
+        m_Resources[resourceType] -= lastDelta;
+
+        return leftAmount;
+    }
+
+    void ClearInventory()
     {
         foreach (var resourceType in (GameResourceEnum[])Enum.GetValues(typeof(GameResourceEnum)))
         {
             m_Resources[resourceType] = 0;
         }
-    }
-
-    public int EditResources(GameResourceEnum resourceType, int delta)
-    {
-        if (isFull())
-        {
-            return delta;
-        }
-        else
-        {
-            if(m_CurrentResourceAmount+delta > m_MaxAmount)
-        }
-        m_Resources[resourceType] += delta;
-    }
-
-    public bool isFull()
-    {
-        var resourceAmount = m_CurrentResourceAmount;
-
-        return resourceAmount >= m_MaxAmount;
     }
 }
