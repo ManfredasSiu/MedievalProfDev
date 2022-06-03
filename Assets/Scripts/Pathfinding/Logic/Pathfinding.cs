@@ -191,13 +191,16 @@ public class Pathfinding
     public void SetWalkable(Vector3 lowerLeftPos, Vector3 upperRightPos, bool isWalkable)
     {
         var currentPos = lowerLeftPos;
-        while (currentPos.y <= upperRightPos.y)
+        while (currentPos.y < upperRightPos.y)
         {
-            while (currentPos.x <= upperRightPos.x)
+            while (currentPos.x < upperRightPos.x)
             {
                 GetNode(currentPos).isWalkable = isWalkable;
+                
                 currentPos.x += m_NodeGrid.CellSize;
             }
+
+            currentPos.x = lowerLeftPos.x;
             currentPos.y += m_NodeGrid.CellSize;
         }
     }

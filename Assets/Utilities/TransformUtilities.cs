@@ -51,8 +51,8 @@ public static class TransformUtilities
         {
             tempBounds.Encapsulate(child);   
         }
-
-        lowerLeftPos = currentPos - tempBounds.extents;
-        upperRightPos = currentPos + tempBounds.extents;
+        
+        lowerLeftPos = currentPos;
+        upperRightPos = currentPos+tempBounds.size;
     }
 }
