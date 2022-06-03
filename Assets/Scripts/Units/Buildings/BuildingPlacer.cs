@@ -6,6 +6,7 @@ using DefaultNamespace;
 using PathFinding.Scripts.UIManagers;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class BuildingPlacer : MonoBehaviour
 {
@@ -37,14 +38,13 @@ public class BuildingPlacer : MonoBehaviour
     {
         if (_placedBuilding != null)
         {
-            if (Input.GetKeyUp(KeyCode.Escape))
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 _CancelPlacedBuilding();
                 return;
             }
             
-            _cameraToWorld = _mainCam.ScreenToWorldPoint(Input.mousePosition);
-            _cameraToWorld.z = 0;
+            _cameraToWorld = _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             var node = _pathfinding.GetNodeCenterPosition(_cameraToWorld);
             _placedBuilding.SetPosition(node);
             if (_lastPlacementPosition != node)
@@ -52,7 +52,7 @@ public class BuildingPlacer : MonoBehaviour
                 _placedBuilding.CheckValidPlacement(node);
             }
 
-            if (_placedBuilding.HasValidPlacement && Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
+            if (_placedBuilding.HasValidPlacement && Mouse.current.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
             {
                 _PlaceBuilding(node);
             }
