@@ -76,7 +76,7 @@ namespace Assets.Grid.Scripts.Map.Logic
             return new Vector3(x, y) * m_CellSize + m_OriginPos;
         }
 
-        public virtual void SetGridObject(int x, int y, TGridObject value)
+        public virtual void SetGridObject(int x, int y, TGridObject value, bool printError = false)
         {
             if (x >= 0 && y >= 0 && x < m_Width && y < m_Height)
             {
@@ -85,7 +85,7 @@ namespace Assets.Grid.Scripts.Map.Logic
 
                 CallValueChangedEvent(x, y);
             }
-            else
+            else if(printError)
             {
                 Debug.LogError($"Invalid grid range for x = {x}, y = {y} when setting value.");
             }
@@ -98,7 +98,7 @@ namespace Assets.Grid.Scripts.Map.Logic
             SetGridObject(xValue, yValue, value);
         }
 
-        public virtual TGridObject GetGridObject(int x, int y)
+        public virtual TGridObject GetGridObject(int x, int y, bool printError = false)
         {
             if (x >= 0 && y >= 0 && x < m_Width && y < m_Height)
             {
@@ -106,7 +106,8 @@ namespace Assets.Grid.Scripts.Map.Logic
             }
             else
             {
-                Debug.LogError($"Invalid grid range for x = {x}, y = {y} when getting value.");
+                if(printError)
+                    Debug.LogError($"Invalid grid range for x = {x}, y = {y} when getting value.");
                 return default(TGridObject);
             }
         }

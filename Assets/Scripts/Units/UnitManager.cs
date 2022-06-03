@@ -14,6 +14,11 @@ public class UnitManager : MonoBehaviour
     {
         
     }
+
+    protected virtual bool IsActive()
+    {
+        return true;
+    }
     
     //TODO Methods for unit selections (and others)
 }

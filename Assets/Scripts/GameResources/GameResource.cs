@@ -1,17 +1,20 @@
+using System;
+
+[Serializable]
 public class GameResource
 {
-    public string Name { get; }
-    public int Amount { get; private set; }
+    public GameResourceEnum code;
+    public int amount;
 
-    public GameResource(string name, int amount)
+    public GameResource(GameResourceEnum code, int amount)
     {
-        Name = name;
-        Amount = amount;
+        this.code = code;
+        this.amount = amount;
     }
 
     public void AddOrRemove(int value)
     {
-        Amount += value;
-        if (Amount < 0) Amount = 0;
+        amount += value;
+        if (amount < 0) amount = 0;
     }
 }

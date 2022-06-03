@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace PathFinding.Scripts.UIManagers
         TileScriptableObject m_TileStructuresContainer;
 
         public static Pathfinding pathfinding => m_Pathfinding;
+        public static event Action OnPathfindingChanged;
 
         void Awake()
         {
@@ -50,8 +52,14 @@ namespace PathFinding.Scripts.UIManagers
             {
                 Tilemap.tilemapTileChanged += UpdateWall;
             }
-
+            BuildingPlacer.RaiseBuildingPlacedEvent += UpdateGridWalkability;
             m_Pathfinding = CreatePathfinding();
+        }
+
+        private void UpdateGridWalkability(object sender, BuildingPlacedEvent e)
+        {
+            m_Pathfinding.GetNode(e.Building.transform.position).isWalkable = false;
+            OnPathfindingChanged?.Invoke();
         }
 
         private void UpdateWall(Tilemap tilemap, Tilemap.SyncTile[] changedTiles)
