@@ -39,7 +39,7 @@ public class CameraPanAndZoom : MonoBehaviour
         }
         if(zInput !=0)
         {
-            ZoomCamera(zInput);
+            ZoomCamera(-zInput);
         }
     }
 
