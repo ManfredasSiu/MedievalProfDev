@@ -26,21 +26,6 @@ public class BuildingManager : UnitManager
         _pathfinding = PathfindingManager.pathfinding;
     }
 
-    public void Update()
-    {
-        /*if (Input.GetMouseButtonDown(0))
-        {
-            if (mainCam != null)
-            {
-                var cameraToWorld = mainCam.ScreenToWorldPoint(Input.mousePosition);
-                var centerPos = _pathfinding.GetNodeCenterPosition(cameraToWorld);
-                var g = Instantiate(Resources.Load("Prefabs/Buildings/House")) as GameObject;
-                g.transform.position = centerPos;
-            }
-        }*/
-
-    }
-
     public void Initialize(Building building)
     {
         _building = building;
