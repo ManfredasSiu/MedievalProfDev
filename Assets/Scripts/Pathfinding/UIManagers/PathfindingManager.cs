@@ -58,7 +58,7 @@ namespace PathFinding.Scripts.UIManagers
 
         private void UpdateGridWalkability(object sender, BuildingPlacedEvent e)
         {
-            m_Pathfinding.GetNode(e.Pos).isWalkable = false;
+            m_Pathfinding.GetNode(e.Building.transform.position).isWalkable = false;
             OnPathfindingChanged?.Invoke();
         }
 

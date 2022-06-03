@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public Transform resourcesUIParent;
     public GameObject gameResourceDisplayPrefab;
 
-    private Dictionary<string, TMP_Text> _resourceTexts = new Dictionary<string, TMP_Text>();
+    private Dictionary<GameResourceEnum, TMP_Text> _resourceTexts = new Dictionary<GameResourceEnum, TMP_Text>();
     private Dictionary<string, Button> _buildingButtons = new Dictionary<string, Button>();
 
     private void Awake()
@@ -24,9 +24,9 @@ public class UIManager : MonoBehaviour
         foreach (var resource in GameResources.GAME_RESOURCES)
         {
             var display = Instantiate(gameResourceDisplayPrefab, resourcesUIParent);
-            display.name = resource.Value.code;
+            display.name = resource.Value.code.ToString();
             _resourceTexts[resource.Value.code] = display.transform.Find("ResourceName").GetComponent<TMP_Text>();
-            _SetResourceText(resource.Value.code, resource.Value.code);
+            _SetResourceText(resource.Value.code, resource.Value.code.ToString());
             _resourceTexts[resource.Value.code] = display.transform.Find("Amount").GetComponent<TMP_Text>();
             _SetResourceText(resource.Value.code, resource.Value.amount.ToString());
         }
@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         _RefreshBuildingsUi();
     }
     
-    private void _SetResourceText(string resource, string value)
+    private void _SetResourceText(GameResourceEnum resource, string value)
     {
         _resourceTexts[resource].text = value;
     }

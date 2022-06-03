@@ -20,6 +20,7 @@ public class Building
     public bool IsFixed => _placement == BuildingPlacement.FIXED;
     public bool HasValidPlacement => _placement == BuildingPlacement.VALID;
     
+    public GameObject BuildingObject { get; }
     public GameObject BuildingSprite { get; }
     public Transform Transform { get; }
     public BuildingData Data { get; }
@@ -29,8 +30,8 @@ public class Building
         Data = data;
         _currentHealth = data.hp;
 
-        var g = GameObject.Instantiate(data.prefab);
-        Transform = g.transform;
+        BuildingObject = GameObject.Instantiate(data.prefab);
+        Transform = BuildingObject.transform;
         BuildingManager = Transform.GetComponent<BuildingManager>();
         BuildingSprite = Transform.Find("Sprite").gameObject;
         _spriteRenderer = BuildingSprite.GetComponent<SpriteRenderer>();

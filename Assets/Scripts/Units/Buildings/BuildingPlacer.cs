@@ -85,11 +85,12 @@ public class BuildingPlacer : MonoBehaviour
         _placedBuilding = null;
     }
 
-    private void _PlaceBuilding(Vector3 placedPos)
+    private void _PlaceBuilding(Vector3 pos)
     {
         _placedBuilding.Place();
         _PreparePlacedBuilding(_placedBuilding.DataIndex);
-        OnRaiseBuildingPlacedEvent(new BuildingPlacedEvent(_placedBuilding.Data.cost, _cameraToWorld));
+        _placedBuilding.Transform.position = pos;
+        OnRaiseBuildingPlacedEvent(new BuildingPlacedEvent(_placedBuilding.Data.cost, _placedBuilding.BuildingObject));
         if(!_placedBuilding.CanBuy())
             _CancelPlacedBuilding();
         
@@ -104,13 +105,11 @@ public class BuildingPlacer : MonoBehaviour
 
 public class BuildingPlacedEvent : EventArgs
 {
-    private List<GameResource> cost { get; }
-    private Vector3 pos { get; }
-    public BuildingPlacedEvent(List<GameResource> cost, Vector3 pos)
+    private List<GameResource> Cost { get; }
+    public GameObject Building { get; }
+    public BuildingPlacedEvent(List<GameResource> cost, GameObject building)
     {
-        this.cost = cost;
-        this.pos = pos;
+        Cost = cost;
+        Building = building;
     }
-
-    public Vector3 Pos => pos;
 }
