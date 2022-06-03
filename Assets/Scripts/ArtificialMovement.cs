@@ -69,6 +69,7 @@ public class ArtificialMovement : MonoBehaviour
 
     void Awake()
     {
+        PathfindingManager.OnPathfindingChanged += OnPathfindingEdited;
         m_Pathfinding = PathfindingManager.pathfinding;
     }
 
@@ -84,6 +85,15 @@ public class ArtificialMovement : MonoBehaviour
         if (m_Path != null)
         {
             ControlledMovement();
+        }
+    }
+
+    void OnPathfindingEdited()
+    {
+        if (m_Target != null)
+        {
+            var targetPos = m_Target.TransformPositionWithOffset();
+            FindPathToTheTargetAndSetMilestone(targetPos);
         }
     }
 
@@ -104,7 +114,7 @@ public class ArtificialMovement : MonoBehaviour
 
         FindWalkingPathAndSetMilestone(targetPosition);
         
-        if (!m_Path.Any())
+        if (m_Path == null || !m_Path.Any())
         {
             m_Path = null;
             return;

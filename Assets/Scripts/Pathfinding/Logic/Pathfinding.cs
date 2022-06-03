@@ -188,7 +188,7 @@ public class Pathfinding
     public Vector3 GetNodeCenterPosition(Vector3 worldPos)
     {
         var node = GetNode(worldPos);
-        return m_NodeGrid.GetWorldPosition(node.x, node.y);
+        return node == null ? worldPos : m_NodeGrid.GetWorldPosition(node.x, node.y);
     }
 
     private List<PathNode> CalculatePath(PathNode endNode)

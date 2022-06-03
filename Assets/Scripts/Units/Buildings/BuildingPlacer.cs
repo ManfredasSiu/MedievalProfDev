@@ -20,7 +20,7 @@ public class BuildingPlacer : MonoBehaviour
     
     private const int gridLayer = 1 << 6;
 
-    public event EventHandler<BuildingPlacedEvent> RaiseBuildingPlacedEvent;
+    public static event EventHandler<BuildingPlacedEvent> RaiseBuildingPlacedEvent;
 
     private void Awake()
     {
@@ -89,7 +89,6 @@ public class BuildingPlacer : MonoBehaviour
     {
         _placedBuilding.Place();
         _PreparePlacedBuilding(_placedBuilding.DataIndex);
-        _pathfinding.GetNode(_pathfinding.GetNodeCenterPosition(placedPos)).isWalkable = false;
         OnRaiseBuildingPlacedEvent(new BuildingPlacedEvent(_placedBuilding.Data.cost, _cameraToWorld));
         if(!_placedBuilding.CanBuy())
             _CancelPlacedBuilding();
@@ -112,4 +111,6 @@ public class BuildingPlacedEvent : EventArgs
         this.cost = cost;
         this.pos = pos;
     }
+
+    public Vector3 Pos => pos;
 }

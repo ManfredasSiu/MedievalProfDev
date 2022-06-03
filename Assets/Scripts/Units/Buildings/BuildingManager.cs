@@ -64,7 +64,7 @@ public class BuildingManager : UnitManager
     private bool _HasValidPlacement(Vector3 mousePos)
     {
         //TODO CHANGE PathfindingManager to a reference... (NRE's that I couldn't be bothered to solve today)
-        return PathfindingManager.pathfinding.GetNode(PathfindingManager.pathfinding.GetNodeCenterPosition(mousePos)).isWalkable;
+        return PathfindingManager.pathfinding.GetNode(mousePos) != null && PathfindingManager.pathfinding.GetNode(mousePos).isWalkable;
     }
     
     

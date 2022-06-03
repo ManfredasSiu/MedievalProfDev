@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         _buildingPlacer = GetComponent<BuildingPlacer>();
-        _buildingPlacer.RaiseBuildingPlacedEvent += UpdateUIOnPlacedBuilding;
+        BuildingPlacer.RaiseBuildingPlacedEvent += UpdateUIOnPlacedBuilding;
         foreach (var resource in GameResources.GAME_RESOURCES)
         {
             var display = Instantiate(gameResourceDisplayPrefab, resourcesUIParent);
