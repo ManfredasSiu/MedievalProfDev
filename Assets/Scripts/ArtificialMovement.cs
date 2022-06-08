@@ -26,6 +26,10 @@ public class ArtificialMovement : MonoBehaviour
 
     Vector3 yDelta => gameObject.GetYDeltaForTransform();
 
+    public GameObject movementTarget => m_Target;
+
+    public float distanceToTarget => Vector2.Distance(transform.position, m_NextMilestone + yDelta);
+    
     public event Action onTargetReached;
 
     public void SetTarget(GameObject target)
@@ -67,7 +71,7 @@ public class ArtificialMovement : MonoBehaviour
         onTargetReached?.Invoke();
     }
 
-    void Awake()
+    void Start()
     {
         PathfindingManager.OnPathfindingChanged += OnPathfindingEdited;
         m_Pathfinding = PathfindingManager.pathfinding;
@@ -132,14 +136,14 @@ public class ArtificialMovement : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position,
             m_NextMilestone+ yDelta, movementSpeed);
 
-        if (Vector2.Distance(transform.position, m_NextMilestone+ yDelta) < 0.1f)
+        if (distanceToTarget < 0.1f)
         {
             if (!m_Path.Any())
             {
                 m_Path = null;
                 onTargetReached?.Invoke();
 
-                m_Target = null;
+                //m_Target = null;
                 return;
             }
             

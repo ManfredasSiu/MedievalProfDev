@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[System.Serializable]
+[Serializable]
 public class TileDataStructure
 {
    public TileType TileType;
