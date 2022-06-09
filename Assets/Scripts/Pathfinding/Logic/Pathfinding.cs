@@ -40,6 +40,12 @@ public class Pathfinding
         }
     }
 
+    public Vector3 GetCenterEdge(Vector3 lowerLeftPos, Vector3 upperRightPos)
+    {
+        var normalizedUpper = upperRightPos - lowerLeftPos;
+        return normalizedUpper / 2;
+    }
+
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
     {
         var startNode = m_NodeGrid.GetGridObject(startX, startY);
@@ -192,7 +198,7 @@ public class Pathfinding
     {
         var affectedNodes = GetNodes(lowerLeftPos, upperRightPos);
 
-        affectedNodes.All(node => node.isWalkable = false);
+        affectedNodes.ForEach(node => node.isWalkable = false);
     }
 
     public List<PathNode> GetNodes(Vector3 lowerLeftPos, Vector3 upperRightPos)
@@ -205,7 +211,8 @@ public class Pathfinding
             while (currentPos.x < upperRightPos.x)
             {
                 var node = GetNode(currentPos);
-                
+                if (node == null)
+                    return nodeList;
                 nodeList.Add(node);
                 currentPos.x += m_NodeGrid.CellSize;
             }

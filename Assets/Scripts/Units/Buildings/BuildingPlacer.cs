@@ -36,30 +36,9 @@ public class BuildingPlacer : MonoBehaviour
 
     private void Update()
     {
-        if (_placedBuilding != null)
-        {
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            {
-                _CancelPlacedBuilding();
-                return;
-            }
-            
-            _cameraToWorld = _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            var node = _pathfinding.GetNodeCenterPosition(_cameraToWorld);
-            _placedBuilding.SetPosition(node);
-            if (_lastPlacementPosition != node)
-            {
-                _placedBuilding.CheckValidPlacement(node);
-            }
-
-            if (_placedBuilding.HasValidPlacement && Mouse.current.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
-            {
-                _PlaceBuilding(node);
-            }
-
-        }
+        _BuildingPlacement();
     }
-    
+
 
     public void SelectPlacedBuilding(int buildingDataIndex)
     {
@@ -94,6 +73,32 @@ public class BuildingPlacer : MonoBehaviour
         if(!_placedBuilding.CanBuy())
             _CancelPlacedBuilding();
         
+    }
+
+    private void _BuildingPlacement()
+    {
+        if (_placedBuilding != null)
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                _CancelPlacedBuilding();
+                return;
+            }
+            
+            _cameraToWorld = _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            var node = _pathfinding.GetNodeCenterPosition(_cameraToWorld);
+            _placedBuilding.SetPosition(node);
+            if (_lastPlacementPosition != node)
+            {
+                _placedBuilding.CheckValidPlacement(node);
+            }
+
+            if (_placedBuilding.HasValidPlacement && Mouse.current.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
+            {
+                _PlaceBuilding(node);
+            }
+
+        }
     }
 
     protected virtual void OnRaiseBuildingPlacedEvent(BuildingPlacedEvent e)

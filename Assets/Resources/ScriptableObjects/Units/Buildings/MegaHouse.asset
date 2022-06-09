@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ea7d908c25240d44a2527bb9416c277, type: 3}
-  m_Name: Quarry
+  m_Name: MegaHouse
   m_EditorClassIdentifier: 
-  code: 1
-  unitName: Quarry
-  hp: 125
-  prefab: {fileID: 496796934026647823, guid: 13054d4c1e2c56e4d89316ed1adc83dc, type: 3}
+  code: 2
+  unitName: Mega House
+  hp: 100
+  prefab: {fileID: 496796934026647823, guid: e52df3e97fe08c244bb76a201e911b9b, type: 3}
   cost:
   - code: 0
-    amount: 100
+    amount: 50

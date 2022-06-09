@@ -6,13 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/Building", order = 1)]
 public class BuildingData : ScriptableObject
 {
-    public string code;
+    public BuildingEnum code;
     public string unitName;
     public int hp;
     public GameObject prefab;
     public List<GameResource> cost;
 
-    public BuildingData(string code, int hp, List<GameResource> cost)
+    public BuildingData(BuildingEnum code, int hp, List<GameResource> cost)
     {
         this.code = code;
         this.hp = hp;

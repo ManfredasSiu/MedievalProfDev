@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using PathFinding.Scripts.UIManagers;
 using UnityEngine;
 
@@ -48,8 +49,11 @@ public class BuildingManager : UnitManager
 
     private bool _HasValidPlacement(Vector3 mousePos)
     {
+        
         //TODO CHANGE PathfindingManager to a reference... (NRE's that I couldn't be bothered to solve today)
-        return PathfindingManager.pathfinding.GetNode(mousePos) != null && PathfindingManager.pathfinding.GetNode(mousePos).isWalkable;
+        var nodes = PathfindingManager.pathfinding.GetNodes(mousePos, mousePos + transform.localScale);
+        return nodes.All(node => node.isWalkable);
+        //return PathfindingManager.pathfinding.GetNode(mousePos) != null && PathfindingManager.pathfinding.GetNode(mousePos).isWalkable;
     }
     
     
