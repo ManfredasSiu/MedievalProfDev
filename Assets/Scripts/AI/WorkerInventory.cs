@@ -63,6 +63,14 @@ public class WorkerInventory : MonoBehaviour
 
         return leftAmount;
     }
+    
+    public Dictionary<GameResourceEnum, int>  RemoveAllResources()
+    {
+        var returnResources = new Dictionary<GameResourceEnum, int>(m_Resources);
+        ReformInventory();
+
+        return returnResources;
+    }
 
     void ReformInventory()
     {
