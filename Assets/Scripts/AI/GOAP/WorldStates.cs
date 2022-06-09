@@ -8,8 +8,10 @@ public enum StateKeys
     ArrivedToGoldMine,
     GoldMined,
     WoodChopped,
-    ArrivedToHauling,
-    GoldGathered,
+    AgentHungry,
+    AgentFed,
+    ResourcesHauled,
+    InventoryFull,
 }
 
 [Serializable]

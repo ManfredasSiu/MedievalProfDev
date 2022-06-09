@@ -35,6 +35,8 @@ public class GAgent : MonoBehaviour
 
     public GAction currentAction;
 
+    public WorldStates beliefs = new WorldStates();
+
     public void Start()
     {
         m_MovementControls = GetComponent<ArtificialMovement>();
@@ -74,7 +76,7 @@ public class GAgent : MonoBehaviour
 
             foreach (var subGoal in sortedGoals)
             {
-                m_ActionQueue = m_Planner.Plan(actions, subGoal.Key.sGoals, null);
+                m_ActionQueue = m_Planner.Plan(actions, subGoal.Key.sGoals, beliefs);
                 if (m_ActionQueue != null)
                 {
                     m_CurrentGoal = subGoal.Key;
@@ -83,7 +85,7 @@ public class GAgent : MonoBehaviour
             }
         }
 
-        if (m_ActionQueue != null && !actions.Any())
+        if (m_ActionQueue != null && !m_ActionQueue.Any())
         {
             if (m_CurrentGoal.remove)
             {

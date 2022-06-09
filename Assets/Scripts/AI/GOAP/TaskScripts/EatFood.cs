@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GoToStockPile : GAction
+public class EatFood : GAction
 {
     public override bool PrePerform()
     {
@@ -10,7 +10,7 @@ public class GoToStockPile : GAction
 
     public override bool PostPerform()
     {
-        beliefs.RemoveState(StateKeys.InventoryFull);
+        beliefs.RemoveState(StateKeys.AgentHungry);
         return true;
     }
 }
