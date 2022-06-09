@@ -37,6 +37,11 @@ public class GAgent : MonoBehaviour
 
     public WorldStates beliefs = new WorldStates();
 
+    public WorkerInventory inventory;
+    
+    //Todo: set this field when the worker is created with the building
+    public GameObject HouseReference;
+
     public void Start()
     {
         m_MovementControls = GetComponent<ArtificialMovement>();
@@ -54,6 +59,11 @@ public class GAgent : MonoBehaviour
     
     void LateUpdate()
     {
+        if (inventory.isFull && !beliefs.HasState(StateKeys.InventoryFull))
+        {
+            beliefs.SetState(StateKeys.InventoryFull, 0);
+        }
+        
         if (currentAction != null && currentAction.running)
         {
             if (m_MovementControls.movementTarget && m_MovementControls.distanceToTarget < 0.1f)

@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class MineGold : GAction
 {
+    [SerializeField]
+    GameResourceEnum resourceType = GameResourceEnum.Gold;
+    
+    public int resourceAmountToAdd = 10;
+
     public override bool PrePerform()
     {
         return true;
@@ -10,7 +15,7 @@ public class MineGold : GAction
 
     public override bool PostPerform()
     {
-        beliefs.SetState(StateKeys.InventoryFull, 1);
+        Inventory.IncrementResource(resourceType, resourceAmountToAdd);
 
         return true;
     }

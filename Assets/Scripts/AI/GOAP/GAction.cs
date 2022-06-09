@@ -16,6 +16,7 @@ public abstract class GAction : MonoBehaviour
     public WorldState[] preConditions;
     public WorldState[] afterEffects;
     public WorldStates beliefs;
+    public WorkerInventory Inventory;
 
     public Dictionary<StateKeys, int> conditions => preConditions?.ToDictionary(state => state.key, state => state.value);
     public Dictionary<StateKeys, int> effects => afterEffects?.ToDictionary(state => state.key, state => state.value);
@@ -24,9 +25,10 @@ public abstract class GAction : MonoBehaviour
 
     public bool running = false;
 
-    void Awake()
+    public void Awake()
     {
         beliefs = GetComponent<GAgent>().beliefs;
+        Inventory = GetComponent<GAgent>().inventory;
     }
 
     public bool IsAchievable()
