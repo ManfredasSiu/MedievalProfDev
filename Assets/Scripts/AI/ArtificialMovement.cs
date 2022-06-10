@@ -45,6 +45,8 @@ public class ArtificialMovement : MonoBehaviour
 
     public GameObject FindBestTarget(params GameObject[] gameObjects)
     {
+        if (gameObjects.Length == 0)
+            return null;
         GameObject bestGameObject = gameObjects.First();
         float bestFCost = float.MaxValue;
         foreach (var target in gameObjects)
@@ -71,10 +73,14 @@ public class ArtificialMovement : MonoBehaviour
         onTargetReached?.Invoke();
     }
 
+    private void Awake()
+    {
+        m_Pathfinding = PathfindingManager.pathfinding;
+    }
+
     void Start()
     {
         PathfindingManager.OnPathfindingChanged += OnPathfindingEdited;
-        m_Pathfinding = PathfindingManager.pathfinding;
     }
 
     void Update()
