@@ -12,6 +12,14 @@ public class GameResource
         this.amount = amount;
     }
 
+    public void TurnCostToNegative()
+    {
+        if (amount >= 0)
+        {
+            amount = -amount;
+        }
+    }
+
     public void AddOrRemove(int value)
     {
         amount += value;

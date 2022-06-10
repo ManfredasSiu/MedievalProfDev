@@ -3198,10 +3198,11 @@ GameObject:
   - component: {fileID: 1309135579}
   - component: {fileID: 1309135578}
   - component: {fileID: 1309135576}
-  - component: {fileID: 1309135575}
   - component: {fileID: 1309135583}
   - component: {fileID: 1309135582}
   - component: {fileID: 1309135577}
+  - component: {fileID: 1309135584}
+  - component: {fileID: 1309135575}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -3218,19 +3219,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1309135574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af41d1cbf7676f841b2e50b4b44a4464, type: 3}
+  m_Script: {fileID: 11500000, guid: 70b0e5c691d92c0408064b91054708ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionName: MineGold
+  actionName: Action
   Cost: 1
-  target: {fileID: 100914411}
+  target: {fileID: 586584754}
   targetTag: 
-  duration: 0
-  preConditions: []
-  afterEffects:
-  - key: 0
+  duration: 1
+  preConditions:
+  - key: 3
     value: 0
+  afterEffects:
+  - key: 4
+    value: 0
+  Inventory: {fileID: 0}
   running: 0
+  resourceType: 1
+  foodEaten: 20
 --- !u!114 &1309135576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3245,6 +3251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions: []
   currentAction: {fileID: 0}
+  inventory: {fileID: 1309135584}
+  HouseReference: {fileID: 1683693083}
 --- !u!114 &1309135577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3374,11 +3382,12 @@ MonoBehaviour:
   targetTag: 
   duration: 1
   preConditions:
-  - key: 1
+  - key: 6
     value: 0
   afterEffects:
-  - key: 4
+  - key: 5
     value: 0
+  Inventory: {fileID: 0}
   running: 0
 --- !u!114 &1309135583
 MonoBehaviour:
@@ -3396,14 +3405,27 @@ MonoBehaviour:
   Cost: 1
   target: {fileID: 100914411}
   targetTag: 
-  duration: 5
-  preConditions:
-  - key: 0
-    value: 0
+  duration: 0
+  preConditions: []
   afterEffects:
   - key: 1
     value: 0
+  Inventory: {fileID: 0}
   running: 0
+  resourceType: 2
+  resourceAmountToAdd: 10
+--- !u!114 &1309135584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309135574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42cfbe1af34104187d8b73362b1b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1629962395
 GameObject:
   m_ObjectHideFlags: 0
