@@ -12,7 +12,7 @@ public enum GameResourceEnum
 
 public class GameResources : MonoBehaviour
 {
-    public static event Action OnResourceModified;
+    public static event Action OnResourcesModified;
     
     public static Dictionary<GameResourceEnum, GameResource> GAME_RESOURCES = new Dictionary<GameResourceEnum, GameResource>()
     {
@@ -27,11 +27,20 @@ public class GameResources : MonoBehaviour
         {
             ModifyResource(resource.Key, resource.Value);
         }
+        OnResourcesModified?.Invoke();
     }
     
+    public static void ModifyResources(List<GameResource> resourceList)
+    {
+        foreach (var resource in resourceList)
+        {
+            ModifyResource(resource.code, resource.amount);
+        }
+        OnResourcesModified?.Invoke();
+    }
+
     public static void ModifyResource(GameResourceEnum resourceType, int amount)
     {
         GAME_RESOURCES[resourceType].AddOrRemove(amount);
-        OnResourceModified?.Invoke();
     }
 }

@@ -63,11 +63,8 @@ public class Building
         _placement = BuildingPlacement.FIXED;
         Transform.GetComponent<Collider2D>().isTrigger = false;
         SetMaterials();
-
-        foreach (var resource in Data.cost)
-        {
-            GameResources.GAME_RESOURCES[resource.code].AddOrRemove(-resource.amount);
-        }
+        
+        GameResources.ModifyResources(Data.cost.TurnResourceCostToNegative());
     }
 
     public void SetPosition(Vector3 position)

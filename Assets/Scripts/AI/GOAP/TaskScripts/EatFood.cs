@@ -22,7 +22,7 @@ public class EatFood : GAction
 
     public override bool PostPerform()
     {
-        GameResources.ModifyResource(resourceType, foodEaten);
+        GameResources.ModifyResource(resourceType, -foodEaten);
         
         beliefs.RemoveState(StateKeys.AgentHungry);
         return true;
