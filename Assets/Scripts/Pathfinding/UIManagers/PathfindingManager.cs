@@ -61,13 +61,11 @@ namespace PathFinding.Scripts.UIManagers
         void UpdateGridWalkability(object sender, BuildingPlacedEvent e)
         {
             var buildingGameObject = e.Building;
-            var renderers = buildingGameObject.GetComponentsInChildren<SpriteRenderer>();
-            
-            buildingGameObject.transform.position.GetUpperAndLowerPos(renderers, out var lowerLeftPos, out var upperRightPos);
 
+            var lowerLeftPos = buildingGameObject.transform.position;
+            var upperRightPos = lowerLeftPos + buildingGameObject.transform.localScale;
             pathfinding.SetWalkable(lowerLeftPos, upperRightPos, false);
             
-            m_Pathfinding.GetNode(e.Building.transform.position).isWalkable = false;
             OnPathfindingChanged?.Invoke();
         }
 

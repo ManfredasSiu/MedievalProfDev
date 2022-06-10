@@ -61,7 +61,7 @@ public class Building
     public void Place()
     {
         _placement = BuildingPlacement.FIXED;
-        Transform.GetComponent<Collider2D>().isTrigger = false;
+        //Transform.GetComponent<Collider2D>().isTrigger = false;
         SetMaterials();
         
         GameResources.ModifyResources(Data.cost.TurnResourceCostToNegative());

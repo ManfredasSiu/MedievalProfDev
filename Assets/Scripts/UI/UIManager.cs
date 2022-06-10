@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject gameResourceDisplayPrefab;
 
     private Dictionary<GameResourceEnum, TMP_Text> _resourceTexts = new Dictionary<GameResourceEnum, TMP_Text>();
-    private Dictionary<string, Button> _buildingButtons = new Dictionary<string, Button>();
+    private Dictionary<BuildingEnum, Button> _buildingButtons = new Dictionary<BuildingEnum, Button>();
 
     private void Awake()
     {
