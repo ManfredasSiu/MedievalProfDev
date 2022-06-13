@@ -10,7 +10,7 @@ public class WorkerUnit : Unit
 
     public WorkerUnit(WorkerData data, GameObject houseReference)
     {
-        _unitObject = GameObject.Instantiate(data.prefab, houseReference.TransformPositionWithOffset(), Quaternion.identity);
+        _unitObject = GameObject.Instantiate(data.prefab, houseReference.transform.position, Quaternion.identity);
         _transform = _unitObject.transform;
         Data = data;
         _currentHealth = data.hp;
@@ -18,6 +18,6 @@ public class WorkerUnit : Unit
         ((WorkerManager)_unitManager).Initialize(this);
         WorkerAI = _transform.GetComponent<ArtificialWorker>();
         Inventory = _transform.GetComponent<WorkerInventory>();
-        WorkerAI.HouseReference = houseReference;
+        WorkerAI.houseReference = houseReference;
     }
 }

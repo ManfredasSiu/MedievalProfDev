@@ -193,6 +193,11 @@ public class Pathfinding
         var node = GetNode(worldPos);
         return node == null ? worldPos : m_NodeGrid.GetWorldPosition(node.x, node.y);
     }
+    
+    public Vector3 GetNodeCenterPosition(PathNode node)
+    {
+        return m_NodeGrid.GetWorldPosition(node.x, node.y);
+    }
 
     public void SetWalkable(Vector3 lowerLeftPos, Vector3 upperRightPos, bool isWalkable)
     {
@@ -219,6 +224,43 @@ public class Pathfinding
 
             currentPos.x = lowerLeftPos.x;
             currentPos.y += m_NodeGrid.CellSize;
+        }
+
+        return nodeList;
+    }
+
+    public List<PathNode> GetBoundingNodes(Vector3 lowerLeftPos, Vector3 upperRightPos)
+    {
+        var currentPos = lowerLeftPos;
+
+        var nodeList = new List<PathNode>();
+        while (currentPos.y < upperRightPos.y)
+        {
+            var leftNode = GetNode(new Vector3(lowerLeftPos.x, currentPos.y));
+            var rightNode = GetNode(new Vector3(upperRightPos.x, currentPos.y));
+            
+            nodeList.Add(leftNode);
+            nodeList.Add(rightNode);
+            
+            currentPos.y += m_NodeGrid.CellSize;
+        }
+        
+        while (currentPos.x < upperRightPos.x)
+        {
+            var upNode = GetNode(new Vector3(currentPos.x, upperRightPos.y));
+            var downNode = GetNode(new Vector3(currentPos.x, lowerLeftPos.y));
+
+            if (!nodeList.Contains(upNode))
+            {
+                nodeList.Add(upNode);
+            }
+            
+            if (!nodeList.Contains(downNode))
+            {
+                nodeList.Add(downNode);
+            }
+
+            currentPos.x += m_NodeGrid.CellSize;
         }
 
         return nodeList;

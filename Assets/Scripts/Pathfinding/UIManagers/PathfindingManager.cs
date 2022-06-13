@@ -36,6 +36,48 @@ namespace PathFinding.Scripts.UIManagers
         public static Pathfinding pathfinding => m_Pathfinding;
         public static event Action OnPathfindingChanged;
 
+        public static GameObject FindBestTarget(Vector3 positionWithDelta, params GameObject[] gameObjects)
+        {
+            if (gameObjects.Length == 0)
+                return null;
+            GameObject bestGameObject = gameObjects.First();
+            float bestFCost = float.MaxValue;
+            foreach (var target in gameObjects)
+            {
+                var path = m_Pathfinding.FindPath(positionWithDelta, target.transform.position, out var pathFCost);
+                if (path == null)
+                {
+                    continue;
+                }
+            
+                if (pathFCost < bestFCost)
+                {
+                    bestGameObject = target;
+                    bestFCost = pathFCost;
+                }
+            }
+
+            return bestGameObject;
+        }
+        
+        public static List<Vector3> FindBoundingTileCoordinates(GameObject target)
+        {
+            var tagetGameObject = target;
+
+            var lowerLeftPos = tagetGameObject.transform.position - new Vector3(pathfinding.NodeGrid.CellSize, pathfinding.NodeGrid.CellSize);
+            var upperRightPos = lowerLeftPos + tagetGameObject.transform.localScale + new Vector3(pathfinding.NodeGrid.CellSize, pathfinding.NodeGrid.CellSize);;
+
+            var boundingNodes = pathfinding.GetBoundingNodes(lowerLeftPos, upperRightPos);
+
+            var vectorList = new List<Vector3>();
+            foreach (var node in boundingNodes)
+            {
+                vectorList.Add(pathfinding.GetNodeCenterPosition(node));
+            }
+
+            return vectorList;
+        }
+        
         void Awake()
         {
             if (m_PathTilemap.transform.parent != m_ColliderTilemap.transform.parent)
