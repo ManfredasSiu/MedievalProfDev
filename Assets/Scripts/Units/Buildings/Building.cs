@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -58,9 +59,11 @@ public class Building
         SetMaterials(_placement);
     }
 
-    public void Place()
+    public virtual void Place()
     {
         _placement = BuildingPlacement.FIXED;
+        Utils.AddToBuildingsDict(Data.code, BuildingObject);
+        
         //Transform.GetComponent<Collider2D>().isTrigger = false;
         SetMaterials();
         

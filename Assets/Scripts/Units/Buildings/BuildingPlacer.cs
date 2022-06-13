@@ -51,8 +51,8 @@ public class BuildingPlacer : MonoBehaviour
         {
             Destroy(_placedBuilding.Transform.gameObject);
         }
-
-        var building = new Building(Globals.BUILDING_DATA[buildingDataIndex]);
+        
+        var building = Utils.SetBuildingType(buildingDataIndex);
         building.BuildingManager.Initialize(building);
         _placedBuilding = building;
         _lastPlacementPosition = Vector3.zero;

@@ -5,11 +5,8 @@ using System.Linq;
 using PathFinding.Scripts.UIManagers;
 using UnityEngine;
 
-//TODO PLACEMENT CHECKING
 public class BuildingManager : UnitManager
 {
-    // TODO PLACEMENT CHECKERS AND EVERYTHING ELSE
-
     private Building _building;
     private Camera mainCam;
 
@@ -49,11 +46,8 @@ public class BuildingManager : UnitManager
 
     private bool _HasValidPlacement(Vector3 mousePos)
     {
-        
-        //TODO CHANGE PathfindingManager to a reference... (NRE's that I couldn't be bothered to solve today)
         var nodes = PathfindingManager.pathfinding.GetNodes(mousePos, mousePos + transform.localScale);
         return nodes.All(node => node.isWalkable);
-        //return PathfindingManager.pathfinding.GetNode(mousePos) != null && PathfindingManager.pathfinding.GetNode(mousePos).isWalkable;
     }
     
     

@@ -59,19 +59,19 @@ public class CameraPanAndZoom : MonoBehaviour
     public Vector2 PanDirection(float xCoordinate, float yCoordinate)
     {
         var direction = Vector2.zero;
-        if (yCoordinate >= Screen.height * 0.9f)
+        if (yCoordinate >= Screen.height * 0.99f)
         {
             direction.y += 1;
         }
-        if (yCoordinate <= Screen.height * 0.1f)
+        if (yCoordinate <= Screen.height * 0.01f)
         {
             direction.y -= 1;
         }
-        if (xCoordinate >= Screen.width * 0.9f)
+        if (xCoordinate >= Screen.width * 0.99f)
         {
             direction.x += 1;
         }
-        if (xCoordinate <= Screen.width * 0.1f)
+        if (xCoordinate <= Screen.width * 0.01f)
         {
             direction.x -= 1;
         }

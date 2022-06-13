@@ -48,6 +48,7 @@ public class GAgent : MonoBehaviour
         
         var acts = GetComponents<GAction>();
         actions.AddRange(acts);
+        inventory = GetComponent<WorkerManager>().Worker.Inventory;
     }
 
     void CompleteAction()
