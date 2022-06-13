@@ -21,20 +21,35 @@ public class GameResources : MonoBehaviour
         {GameResourceEnum.Gold,new GameResource(GameResourceEnum.Gold, 1000)},
     };
 
-    public static void ModifyResource(Dictionary<GameResourceEnum, int> resourceDict)
+    public static void ModifyResource(Dictionary<GameResourceEnum, int> resourceDict, bool invertMinus = false)
     {
         foreach (var resource in resourceDict)
         {
-            ModifyResource(resource.Key, resource.Value);
+            if (invertMinus)
+            {
+                ModifyResource(resource.Key, -resource.Value);
+            }
+            else
+            {
+                ModifyResource(resource.Key, resource.Value);
+            }
+            
         }
         OnResourcesModified?.Invoke();
     }
     
-    public static void ModifyResources(List<GameResource> resourceList)
+    public static void ModifyResources(List<GameResource> resourceList, bool invertMinus = false)
     {
         foreach (var resource in resourceList)
         {
-            ModifyResource(resource.code, resource.amount);
+            if (invertMinus)
+            {
+                ModifyResource(resource.code, -resource.amount);
+            }
+            else
+            {
+                ModifyResource(resource.code, resource.amount);
+            }
         }
         OnResourcesModified?.Invoke();
     }
