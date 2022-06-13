@@ -72,7 +72,10 @@ namespace PathFinding.Scripts.UIManagers
             var vectorList = new List<Vector3>();
             foreach (var node in boundingNodes)
             {
-                vectorList.Add(pathfinding.GetNodeCenterPosition(node));
+                if (node.isWalkable)
+                {
+                    vectorList.Add(pathfinding.GetNodeCenterPosition(node));
+                }
             }
 
             return vectorList;
