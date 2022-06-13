@@ -39,8 +39,7 @@ public class GAgent : MonoBehaviour
 
     public WorkerInventory inventory;
     
-    //Todo: set this field when the worker is created with the building
-    public GameObject HouseReference;
+    public GameObject houseReference;
 
     public void Start()
     {

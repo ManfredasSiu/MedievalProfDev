@@ -43,30 +43,6 @@ public class ArtificialMovement : MonoBehaviour
         StartCoroutine(WaitForSec(seconds));
     }
 
-    public GameObject FindBestTarget(params GameObject[] gameObjects)
-    {
-        if (gameObjects.Length == 0)
-            return null;
-        GameObject bestGameObject = gameObjects.First();
-        float bestFCost = float.MaxValue;
-        foreach (var target in gameObjects)
-        {
-            var path = m_Pathfinding.FindPath(positionWithDelta, target.transform.position, out var pathFCost);
-            if (path == null)
-            {
-                continue;
-            }
-            
-            if (pathFCost < bestFCost)
-            {
-                bestGameObject = target;
-                bestFCost = pathFCost;
-            }
-        }
-
-        return bestGameObject;
-    }
-
     IEnumerator WaitForSec( float seconds)
     {
         yield return new WaitForSeconds(seconds);

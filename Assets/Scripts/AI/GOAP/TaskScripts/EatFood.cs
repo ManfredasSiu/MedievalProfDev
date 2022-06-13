@@ -12,7 +12,7 @@ public class EatFood : GAction
     {
         base.Awake();
 
-        target = GetComponent<GAgent>().HouseReference;
+        target = GetComponent<GAgent>().houseReference;
     }
 
     public override bool PrePerform()
