@@ -67,7 +67,7 @@ public class Building
         //Transform.GetComponent<Collider2D>().isTrigger = false;
         SetMaterials();
         
-        GameResources.ModifyResources(Data.cost.TurnResourceCostToNegative());
+        GameResources.ModifyResources(Data.cost, true);
     }
 
     public void SetPosition(Vector3 position)
