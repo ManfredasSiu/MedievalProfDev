@@ -4,7 +4,7 @@ using UnityEngine;
 public class EatFood : GAction
 {
     [SerializeField]
-    GameResourceEnum resourceType = GameResourceEnum.Food;
+    BaseResources resourceType = BaseResources.Food;
     
     public int foodEaten = 20;
 

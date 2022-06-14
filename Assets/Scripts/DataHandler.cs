@@ -14,4 +14,9 @@ public class DataHandler
     {
         Globals.BUILDING_DATA = Resources.LoadAll<BuildingData>("ScriptableObjects/Units/Buildings") as BuildingData[];
     }
+
+    private static void LoadResourceNodes()
+    {
+        
+    }
 }

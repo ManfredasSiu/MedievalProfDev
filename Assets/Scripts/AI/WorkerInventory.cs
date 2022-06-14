@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class WorkerInventory : MonoBehaviour
 {
-    Dictionary<GameResourceEnum, int> m_Resources = new Dictionary<GameResourceEnum, int>();
+    Dictionary<BaseResources, int> m_Resources = new Dictionary<BaseResources, int>();
 
     int m_CurrentResourceAmount => m_Resources.Sum(resource => resource.Value);
     
     int m_MaxAmount = 100;
     
-    public Dictionary<GameResourceEnum, int> resources => m_Resources;
+    public Dictionary<BaseResources, int> resources => m_Resources;
 
     public bool isEmpty => m_CurrentResourceAmount <= 0;
 
@@ -22,7 +22,7 @@ public class WorkerInventory : MonoBehaviour
         ReformInventory();
     }
 
-    public int IncrementResource(GameResourceEnum resourceType, int increment)
+    public int IncrementResource(BaseResources resourceType, int increment)
     {
         if (isFull)
         {
@@ -43,7 +43,7 @@ public class WorkerInventory : MonoBehaviour
         return leftAmount;
     }
 
-    public int DecrementResource(GameResourceEnum resourceType, int decrement)
+    public int DecrementResource(BaseResources resourceType, int decrement)
     {
         if (isEmpty)
         {
@@ -64,9 +64,9 @@ public class WorkerInventory : MonoBehaviour
         return leftAmount;
     }
     
-    public Dictionary<GameResourceEnum, int>  RemoveAllResources()
+    public Dictionary<BaseResources, int>  RemoveAllResources()
     {
-        var returnResources = new Dictionary<GameResourceEnum, int>(m_Resources);
+        var returnResources = new Dictionary<BaseResources, int>(m_Resources);
         ReformInventory();
 
         return returnResources;
@@ -74,7 +74,7 @@ public class WorkerInventory : MonoBehaviour
 
     void ReformInventory()
     {
-        foreach (var resourceType in (GameResourceEnum[])Enum.GetValues(typeof(GameResourceEnum)))
+        foreach (var resourceType in (BaseResources[])Enum.GetValues(typeof(BaseResources)))
         {
             m_Resources[resourceType] = 0;
         }

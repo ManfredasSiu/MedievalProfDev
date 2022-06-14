@@ -4,7 +4,7 @@ using UnityEngine;
 public class MineGold : GAction
 {
     [SerializeField]
-    GameResourceEnum resourceType = GameResourceEnum.Gold;
+    BaseResources resourceType = BaseResources.Gold;
     
     public int resourceAmountToAdd = 10;
 
@@ -21,6 +21,7 @@ public class MineGold : GAction
     public override bool PostPerform()
     {
         Inventory.IncrementResource(resourceType, resourceAmountToAdd);
+        target.GetComponent<ResourceNode>().RemoveResource(resourceAmountToAdd);
 
         return true;
     }

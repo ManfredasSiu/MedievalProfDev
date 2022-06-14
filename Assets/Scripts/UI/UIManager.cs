@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public Transform resourcesUIParent;
     public GameObject gameResourceDisplayPrefab;
 
-    private Dictionary<GameResourceEnum, TMP_Text> _resourceTexts = new Dictionary<GameResourceEnum, TMP_Text>();
+    private Dictionary<BaseResources, TMP_Text> _resourceTexts = new Dictionary<BaseResources, TMP_Text>();
     private Dictionary<BuildingEnum, Button> _buildingButtons = new Dictionary<BuildingEnum, Button>();
 
     private void Awake()
@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
         _RefreshBuildingsUi();
     }
     
-    private void _SetResourceText(GameResourceEnum resource, string value)
+    private void _SetResourceText(BaseResources resource, string value)
     {
         _resourceTexts[resource].text = value;
     }

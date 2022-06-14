@@ -138,7 +138,7 @@ MonoBehaviour:
   currentAction: {fileID: 0}
   inventory: {fileID: 8332115909374797168}
   houseReference: {fileID: 0}
-  workPlace: 1
+  workPlace: 2
   workPlaceGameObject: {fileID: 0}
 --- !u!114 &8332115909374797168
 MonoBehaviour:

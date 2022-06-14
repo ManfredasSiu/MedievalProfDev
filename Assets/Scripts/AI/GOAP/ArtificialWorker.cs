@@ -7,11 +7,11 @@ using Random = UnityEngine.Random;
 public class ArtificialWorker : GAgent
 {
     [SerializeField]
-    BuildingEnum workPlace;
+    ResourceNodeEnums workPlace;
 
     public GameObject workPlaceGameObject; 
     
-    public BuildingEnum WorkPlaceType
+    public ResourceNodeEnums WorkPlaceType
     {
         get => workPlace;
         set
@@ -39,12 +39,12 @@ public class ArtificialWorker : GAgent
     {
         if (workPlaceGameObject == null)
         {
-            if (!Globals.BUILT_BUILDINGS.ContainsKey(workPlace))
+            if (!Globals.RESOURCE_NODES.ContainsKey(workPlace))
             {
                 return;
             }
             
-            var allWorkPlaces = Globals.BUILT_BUILDINGS[workPlace].ToArray();
+            var allWorkPlaces = Globals.RESOURCE_NODES[workPlace].ToArray();
 
             workPlaceGameObject = PathfindingManager.FindBestTarget(gameObject.TransformPositionWithOffset(), allWorkPlaces);
         }

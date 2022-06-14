@@ -3,10 +3,10 @@ using System;
 [Serializable]
 public class GameResource
 {
-    public GameResourceEnum code;
+    public BaseResources code;
     public int amount;
 
-    public GameResource(GameResourceEnum code, int amount)
+    public GameResource(BaseResources code, int amount)
     {
         this.code = code;
         this.amount = amount;

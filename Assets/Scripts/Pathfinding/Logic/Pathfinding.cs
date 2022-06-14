@@ -32,7 +32,7 @@ public class Pathfinding
             var vectorPath = new List<Vector3>();
             foreach (var pathNode in path)
             {
-                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * m_NodeGrid.CellSize * .5f + m_NodeGrid.Origin);
+                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * (m_NodeGrid.CellSize * .5f) + m_NodeGrid.Origin);
             }
 
             fCost = path.Last().fCost;

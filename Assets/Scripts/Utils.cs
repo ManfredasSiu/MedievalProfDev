@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -34,5 +35,29 @@ public class Utils
             existingBuildings.Add(building);
             dict[key] = existingBuildings;
         }
+    }
+    
+    public static void AddToDict<T>(T key, GameObject obj, Dictionary<T,List<GameObject>> dict)
+    {
+        if (!dict.ContainsKey(key))
+        {
+            var list = new List<GameObject> {obj};
+            dict.Add(key, list);
+        }
+        else
+        {
+            var existingBuildings = dict[key];
+            existingBuildings.Add(obj);
+            dict[key] = existingBuildings;
+        }
+    }
+    
+    public static void CleanDict<T>(Dictionary<T,List<GameObject>> dict)
+    {
+        foreach (var pair in dict)
+        {
+            pair.Value.RemoveAll(item => item == null);
+        }
+        
     }
 }
