@@ -25,10 +25,12 @@ public abstract class GAction : MonoBehaviour
 
     public bool running = false;
 
+    internal GAgent gAgentComponent => GetComponent<GAgent>();
+
     public void Awake()
     {
-        beliefs = GetComponent<GAgent>().beliefs;
-        Inventory = GetComponent<GAgent>().inventory;
+        beliefs = gAgentComponent.beliefs;
+        Inventory = gAgentComponent.inventory;
     }
 
     public bool IsAchievable()

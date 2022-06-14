@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DefaultNamespace;
 using PathFinding.Scripts.UIManagers;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class ArtificialMovement : MonoBehaviour
 {
@@ -14,7 +17,7 @@ public class ArtificialMovement : MonoBehaviour
     [SerializeField]
     GameObject m_Target;
     
-    Pathfinding m_Pathfinding;
+    // Pathfinding m_Pathfinding;
 
     PathNode m_TargetPathNode;
     
@@ -36,24 +39,7 @@ public class ArtificialMovement : MonoBehaviour
     {
         m_Target = target;
     }
-
-    public void StopForSeconds(float seconds = 5f)
-    {
-        m_Target = null;
-        StartCoroutine(WaitForSec(seconds));
-    }
-
-    IEnumerator WaitForSec( float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        onTargetReached?.Invoke();
-    }
-
-    private void Awake()
-    {
-        m_Pathfinding = PathfindingManager.pathfinding;
-    }
-
+    
     void Start()
     {
         PathfindingManager.OnPathfindingChanged += OnPathfindingEdited;
@@ -61,9 +47,9 @@ public class ArtificialMovement : MonoBehaviour
 
     void Update()
     {
-        if (m_Target != null && m_TargetPathNode != m_Pathfinding.GetNode(m_Target.TransformPositionWithOffset()))
+        if (m_Target != null && m_TargetPathNode != PathfindingManager.pathfinding.GetNode(m_Target.transform.position - new Vector3(0, 0.5f)))
         {
-            var targetPos = m_Target.TransformPositionWithOffset();
+            var targetPos = m_Target.transform.position - new Vector3(0, 0.5f);
 
             FindPathToTheTargetAndSetMilestone(targetPos);
         }
@@ -78,14 +64,14 @@ public class ArtificialMovement : MonoBehaviour
     {
         if (m_Target != null)
         {
-            var targetPos = m_Target.TransformPositionWithOffset();
+            var targetPos = m_Target.transform.position - new Vector3(0, 1f);
             FindPathToTheTargetAndSetMilestone(targetPos);
         }
     }
 
     void FindWalkingPathAndSetMilestone(Vector3 targetPosition)
     {
-        m_Path = m_Pathfinding.FindPath(positionWithDelta, targetPosition, out var pathFCost);
+        m_Path = PathfindingManager.pathfinding.FindPath(positionWithDelta, targetPosition, out var pathFCost);
         if (m_Path == null)
         {
             return;
@@ -96,7 +82,7 @@ public class ArtificialMovement : MonoBehaviour
 
     void FindPathToTheTargetAndSetMilestone(Vector3 targetPosition)
     {
-        m_TargetPathNode = m_Pathfinding.GetNode(targetPosition);
+        m_TargetPathNode = PathfindingManager.pathfinding.GetNode(targetPosition);
 
         FindWalkingPathAndSetMilestone(targetPosition);
         
@@ -111,7 +97,7 @@ public class ArtificialMovement : MonoBehaviour
 
     void ControlledMovement()
     {
-        var slowness = m_Pathfinding.GetSlownessAtCurrentPos(positionWithDelta);
+        var slowness = PathfindingManager.pathfinding.GetSlownessAtCurrentPos(positionWithDelta);
 
         var movementSpeed = Time.deltaTime * m_Speed * slowness;
 
