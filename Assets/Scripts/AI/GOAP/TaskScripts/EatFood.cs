@@ -8,15 +8,13 @@ public class EatFood : GAction
     
     public int foodEaten = 20;
 
-    new void Awake()
-    {
-        base.Awake();
-
-        target = GetComponent<GAgent>().houseReference;
-    }
-
     public override bool PrePerform()
     {
+        target = GetComponent<GAgent>().houseReference;
+        if (target == null)
+        {
+            return false;
+        }
         return true;
     }
 

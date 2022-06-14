@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,10 +45,8 @@ public class GAgent : MonoBehaviour
     public void Start()
     {
         m_MovementControls = GetComponent<ArtificialMovement>();
-        
         var acts = GetComponents<GAction>();
         actions.AddRange(acts);
-        inventory = GetComponent<WorkerManager>().Worker.Inventory;
     }
 
     void CompleteAction()

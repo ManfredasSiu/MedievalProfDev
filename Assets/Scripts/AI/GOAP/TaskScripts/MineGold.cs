@@ -10,6 +10,11 @@ public class MineGold : GAction
 
     public override bool PrePerform()
     {
+        target = ((ArtificialWorker) gAgentComponent).workPlaceGameObject;
+        if (target == null)
+        {
+            return false;
+        }
         return true;
     }
 

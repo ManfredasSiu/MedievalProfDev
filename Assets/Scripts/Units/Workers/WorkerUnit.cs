@@ -10,7 +10,7 @@ public class WorkerUnit : Unit
 
     public WorkerUnit(WorkerData data, GameObject houseReference)
     {
-        _unitObject = GameObject.Instantiate(data.prefab, houseReference.transform.position, Quaternion.identity);
+        _unitObject = GameObject.Instantiate(data.prefab, houseReference.transform.position-Vector3.one, Quaternion.identity);
         _transform = _unitObject.transform;
         Data = data;
         _currentHealth = data.hp;

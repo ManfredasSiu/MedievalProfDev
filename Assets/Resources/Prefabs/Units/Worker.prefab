@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 8332115909374797132}
   - component: {fileID: 8332115909374797130}
   - component: {fileID: 279906518394636926}
+  - component: {fileID: 8332115909374797128}
+  - component: {fileID: 8332115909374797168}
   - component: {fileID: 8332115909374797131}
   - component: {fileID: 8332115909374797135}
   - component: {fileID: 8332115909374797134}
-  - component: {fileID: 8332115909374797129}
-  - component: {fileID: 8332115909374797168}
   - component: {fileID: 8332115909374797127}
-  - component: {fileID: 8332115909374797128}
+  - component: {fileID: 8332115909374797129}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -122,6 +122,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ebd993197dc00488007fd0311befe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8332115909374797128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332115909374797126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 574c01c4ed415a9419126984abd23200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: []
+  currentAction: {fileID: 0}
+  inventory: {fileID: 8332115909374797168}
+  houseReference: {fileID: 0}
+  workPlace: 1
+  workPlaceGameObject: {fileID: 0}
+--- !u!114 &8332115909374797168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332115909374797126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42cfbe1af34104187d8b73362b1b6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8332115909374797131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,31 +216,6 @@ MonoBehaviour:
     value: 0
   Inventory: {fileID: 0}
   running: 0
---- !u!114 &8332115909374797129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8332115909374797126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba3aa484e45a0824bb4425611184ca95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thisAgent: {fileID: 8332115909374797128}
---- !u!114 &8332115909374797168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8332115909374797126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42cfbe1af34104187d8b73362b1b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8332115909374797127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +243,7 @@ MonoBehaviour:
   running: 0
   resourceType: 1
   foodEaten: 20
---- !u!114 &8332115909374797128
+--- !u!114 &8332115909374797129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,10 +252,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8332115909374797126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 574c01c4ed415a9419126984abd23200, type: 3}
+  m_Script: {fileID: 11500000, guid: ba3aa484e45a0824bb4425611184ca95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: []
-  currentAction: {fileID: 0}
-  inventory: {fileID: 8332115909374797168}
-  HouseReference: {fileID: 0}
+  thisAgent: {fileID: 8332115909374797128}
