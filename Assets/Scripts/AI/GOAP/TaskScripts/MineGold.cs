@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class MineGold : GAction
 {
-    [SerializeField]
-    BaseResources resourceType = BaseResources.Gold;
-    
-    [SerializeField]
-    ResourceNodeEnums resourceNodeType = ResourceNodeEnums.Gold;
-    
     public int resourceAmountToAdd = 10;
 
     public override bool PrePerform()
@@ -20,7 +14,7 @@ public class MineGold : GAction
             return false;
         }
         
-        var allWorkPlaces = Globals.RESOURCE_NODES[resourceNodeType].ToArray();
+        var allWorkPlaces = Globals.RESOURCE_NODES[((ArtificialWorker)gAgentComponent).ResourceNodeType].ToArray();
 
         target = PathfindingManager.FindBestTarget(gameObject.TransformPositionWithOffset(), allWorkPlaces);
         
@@ -29,7 +23,7 @@ public class MineGold : GAction
 
     public override bool PostPerform()
     {
-        Inventory.IncrementResource(resourceType, resourceAmountToAdd);
+        Inventory.IncrementResource(((ArtificialWorker)gAgentComponent).ResourceType, resourceAmountToAdd);
         target.GetComponent<ResourceNode>().RemoveResource(resourceAmountToAdd);
 
         return true;

@@ -8,6 +8,12 @@ public class ArtificialWorker : GAgent
 {
     [SerializeField]
     BuildingEnum workPlace;
+    
+    [SerializeField]
+    BaseResources resourceType = BaseResources.Gold;
+    
+    [SerializeField]
+    ResourceNodeEnums resourceNodeType = ResourceNodeEnums.Gold;
 
     public GameObject workPlaceGameObject; 
     
@@ -19,6 +25,18 @@ public class ArtificialWorker : GAgent
             workPlaceGameObject = null;
             workPlace = value;
         }
+    }
+
+    public BaseResources ResourceType
+    {
+        get => resourceType;
+        set => resourceType = value;
+    }
+    
+    public ResourceNodeEnums ResourceNodeType
+    {
+        get => resourceNodeType;
+        set => resourceNodeType = value;
     }
 
     new void Start()
