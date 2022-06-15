@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using PathFinding.Scripts.UIManagers;
 using UnityEngine;
 
 public class WorkerUnit : Unit
@@ -8,9 +10,10 @@ public class WorkerUnit : Unit
     public ArtificialWorker WorkerAI { get; }
     public WorkerInventory Inventory { get; }
 
-    public WorkerUnit(WorkerData data, GameObject houseReference)
+    public WorkerUnit(WorkerData data, GameObject houseReference, int spawnOffset = 0)
     {
-        _unitObject = GameObject.Instantiate(data.prefab, houseReference.transform.position-Vector3.one, Quaternion.identity);
+        var spawnCoords = PathfindingManager.FindBoundingTileCoordinates(houseReference);
+        _unitObject = GameObject.Instantiate(data.prefab, spawnCoords[0+spawnOffset], Quaternion.identity);
         _transform = _unitObject.transform;
         Data = data;
         _currentHealth = data.hp;

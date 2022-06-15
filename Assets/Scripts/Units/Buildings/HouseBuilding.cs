@@ -22,7 +22,7 @@ public class HouseBuilding : Building
     {
         for (var i = 0; i < WorkerUnits.Capacity; i++)
         {
-            WorkerUnits.Add(new WorkerUnit(Resources.Load("ScriptableObjects/Units/Workers/WorkerMiner") as WorkerData , BuildingObject));
+            WorkerUnits.Add(new WorkerUnit(Resources.Load("ScriptableObjects/Units/Workers/WorkerMiner") as WorkerData , BuildingObject, i));
             ((WorkerManager) WorkerUnits[i]._unitManager).Initialize(WorkerUnits[i]);
         }
     }
