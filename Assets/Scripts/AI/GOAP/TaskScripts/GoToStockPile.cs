@@ -8,12 +8,8 @@ public class GoToStockPile : GAction
     public override bool PrePerform()
     {
         target = PathfindingManager.FindBestTarget(gameObject.TransformPositionWithOffset(), Globals.BUILT_BUILDINGS[BuildingEnum.Stockpile].ToArray());
-        if (target == null)
-        {
-            return false;
-        }
         
-        return true;
+        return target != null;
     }
 
     public override bool PostPerform()

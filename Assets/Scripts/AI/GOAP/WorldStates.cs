@@ -12,6 +12,8 @@ public enum StateKeys
     AgentFed,
     ResourcesHauled,
     InventoryFull,
+    HasTool,
+    NeedsTool,
 }
 
 [Serializable]

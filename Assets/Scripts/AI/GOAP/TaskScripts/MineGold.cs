@@ -1,4 +1,6 @@
 using System;
+using DefaultNamespace;
+using PathFinding.Scripts.UIManagers;
 using UnityEngine;
 
 public class MineGold : GAction
@@ -6,16 +8,23 @@ public class MineGold : GAction
     [SerializeField]
     BaseResources resourceType = BaseResources.Gold;
     
+    [SerializeField]
+    ResourceNodeEnums resourceNodeType = ResourceNodeEnums.Gold;
+    
     public int resourceAmountToAdd = 10;
 
     public override bool PrePerform()
     {
-        target = ((ArtificialWorker) gAgentComponent).workPlaceGameObject;
-        if (target == null)
+        if (Inventory.isFull || beliefs.GetStates().ContainsKey(StateKeys.NeedsTool))
         {
             return false;
         }
-        return true;
+        
+        var allWorkPlaces = Globals.RESOURCE_NODES[resourceNodeType].ToArray();
+
+        target = PathfindingManager.FindBestTarget(gameObject.TransformPositionWithOffset(), allWorkPlaces);
+        
+        return target != null;
     }
 
     public override bool PostPerform()
