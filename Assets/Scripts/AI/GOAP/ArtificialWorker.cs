@@ -44,7 +44,8 @@ public class ArtificialWorker : GAgent
         base.Start();
         var s1 = new SubGoal(StateKeys.GoldMined, 1, false);
         var s4 = new SubGoal(StateKeys.HasTool, 1, false);
-
+        beliefs.SetState(StateKeys.NeedsTool, 0);
+        
         var s2 = new SubGoal(StateKeys.ResourcesHauled, 1, false);
         var s3 = new SubGoal(StateKeys.AgentFed, 1, false);
         
@@ -53,8 +54,8 @@ public class ArtificialWorker : GAgent
         goals.Add(s2, 3);
         goals.Add(s3, 4);
         
-        Invoke(nameof(GetHungry), Random.Range(5,10));
-        Invoke(nameof(ToolBroken), Random.Range(5,10));
+        Invoke(nameof(GetHungry), Random.Range(10,20));
+        Invoke(nameof(ToolBroken), Random.Range(10,15));
     }
 
     void Update()
