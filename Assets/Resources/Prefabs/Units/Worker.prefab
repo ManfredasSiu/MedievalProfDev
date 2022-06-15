@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8332115909374797128}
   - component: {fileID: 8332115909374797168}
   - component: {fileID: 8332115909374797131}
+  - component: {fileID: 8311997123957634362}
   - component: {fileID: 8332115909374797135}
   - component: {fileID: 8332115909374797134}
   - component: {fileID: 8332115909374797127}
@@ -138,7 +139,7 @@ MonoBehaviour:
   currentAction: {fileID: 0}
   inventory: {fileID: 8332115909374797168}
   houseReference: {fileID: 0}
-  workPlace: 2
+  workPlace: 1
   workPlaceGameObject: {fileID: 0}
 --- !u!114 &8332115909374797168
 MonoBehaviour:
@@ -166,6 +167,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Speed: 5
   m_Target: {fileID: 0}
+--- !u!114 &8311997123957634362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332115909374797126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af41d1cbf7676f841b2e50b4b44a4464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: Action
+  Cost: 1
+  target: {fileID: 0}
+  targetTag: 
+  duration: 1
+  preConditions:
+  - key: 8
+    value: 0
+  afterEffects:
+  - key: 7
+    value: 0
+  Inventory: {fileID: 0}
+  running: 0
 --- !u!114 &8332115909374797135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +216,7 @@ MonoBehaviour:
   Inventory: {fileID: 0}
   running: 0
   resourceType: 2
+  resourceNodeType: 2
   resourceAmountToAdd: 10
 --- !u!114 &8332115909374797134
 MonoBehaviour:

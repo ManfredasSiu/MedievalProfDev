@@ -10,12 +10,9 @@ public class EatFood : GAction
 
     public override bool PrePerform()
     {
-        target = GetComponent<GAgent>().houseReference;
-        if (target == null)
-        {
-            return false;
-        }
-        return true;
+        target = gAgentComponent.houseReference;
+        
+        return target != null;
     }
 
     public override bool PostPerform()
