@@ -32,6 +32,7 @@ public class Building
         _currentHealth = data.hp;
 
         BuildingObject = GameObject.Instantiate(data.prefab);
+        BuildingObject.name = $"{data.name}";
         Transform = BuildingObject.transform;
         BuildingManager = Transform.GetComponent<BuildingManager>();
         BuildingSprite = Transform.Find("Sprite").gameObject;

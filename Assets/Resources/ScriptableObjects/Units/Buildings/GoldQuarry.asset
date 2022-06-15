@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea7d908c25240d44a2527bb9416c277, type: 3}
-  m_Name: MegaHouse
+  m_Script: {fileID: 11500000, guid: d8ac4b5349d78a94d928da403bf9e2d7, type: 3}
+  m_Name: GoldQuarry
   m_EditorClassIdentifier: 
-  code: 2
-  unitName: Mega House
+  code: 1
+  unitName: Gold Mine
   hp: 100
-  prefab: {fileID: 496796934026647823, guid: e52df3e97fe08c244bb76a201e911b9b, type: 3}
+  prefab: {fileID: 496796934026647823, guid: 13054d4c1e2c56e4d89316ed1adc83dc, type: 3}
   cost:
-  - code: 0
-    amount: 50
+  - code: 3
+    amount: 150
+  quarryType: 2

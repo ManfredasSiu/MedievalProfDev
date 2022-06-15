@@ -13,7 +13,6 @@ public class HouseBuilding : Building
         WorkerUnits = Data.code switch
         {
             BuildingEnum.House => new List<WorkerUnit>(2),
-            BuildingEnum.BigHouse => new List<WorkerUnit>(4),
             _ => WorkerUnits
         };
     }

@@ -140,6 +140,8 @@ MonoBehaviour:
   inventory: {fileID: 8332115909374797168}
   houseReference: {fileID: 0}
   workPlace: 1
+  resourceType: 2
+  resourceNodeType: 2
   workPlaceGameObject: {fileID: 0}
 --- !u!114 &8332115909374797168
 MonoBehaviour:
@@ -215,8 +217,6 @@ MonoBehaviour:
     value: 0
   Inventory: {fileID: 0}
   running: 0
-  resourceType: 2
-  resourceNodeType: 2
   resourceAmountToAdd: 10
 --- !u!114 &8332115909374797134
 MonoBehaviour:

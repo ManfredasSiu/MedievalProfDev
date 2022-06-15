@@ -12,6 +12,5 @@ public class ResourceNodeGold : ResourceNode
         multiplier = 1f;
         Remainder *= multiplier;
         Utils.AddToDict(ResourceNodeEnums.Gold, gameObject, Globals.RESOURCE_NODES);
-        print(Remainder);
     }
 }
