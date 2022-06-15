@@ -39,9 +39,12 @@ namespace PathFinding.Scripts.UIManagers
         public static GameObject FindBestTarget(Vector3 positionWithDelta, params GameObject[] gameObjects)
         {
             if (gameObjects.Length == 0)
+            {
                 return null;
-            GameObject bestGameObject = gameObjects.First();
-            float bestFCost = float.MaxValue;
+            }
+
+            var bestGameObject = gameObjects.First();
+            var bestFCost = float.MaxValue;
             foreach (var target in gameObjects)
             {
                 var path = m_Pathfinding.FindPath(positionWithDelta, target.transform.position, out var pathFCost);
@@ -49,7 +52,7 @@ namespace PathFinding.Scripts.UIManagers
                 {
                     continue;
                 }
-            
+
                 if (pathFCost < bestFCost)
                 {
                     bestGameObject = target;

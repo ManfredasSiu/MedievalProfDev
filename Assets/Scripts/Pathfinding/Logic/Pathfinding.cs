@@ -29,11 +29,7 @@ public class Pathfinding
         }
         else
         {
-            var vectorPath = new List<Vector3>();
-            foreach (var pathNode in path)
-            {
-                vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * (m_NodeGrid.CellSize * .5f) + m_NodeGrid.Origin);
-            }
+            var vectorPath = path.Select(pathNode => new Vector3(pathNode.x, pathNode.y) * m_NodeGrid.CellSize + Vector3.one * (m_NodeGrid.CellSize * .5f) + m_NodeGrid.Origin).ToList();
 
             fCost = path.Last().fCost;
             return vectorPath;
@@ -56,12 +52,12 @@ public class Pathfinding
             return null;
         }
 
-        m_OpenList = new List<PathNode>() { startNode };
+        m_OpenList = new List<PathNode> { startNode };
         m_ClosedList = new List<PathNode>();
 
-        for(int x = 0; x < m_NodeGrid.Width;x++)
+        for(var x = 0; x < m_NodeGrid.Width;x++)
         {
-            for(int y = 0; y < m_NodeGrid.Height;y++)
+            for(var y = 0; y < m_NodeGrid.Height;y++)
             {
                 var pathNode = m_NodeGrid.GetGridObject(x, y);
                 pathNode.gCost = 99999999;
@@ -87,13 +83,8 @@ public class Pathfinding
 
             var neighbourList = GetNeighbourList(currentNode);
             
-            foreach(var neighbor in neighbourList)
+            foreach (var neighbor in neighbourList.Where(neighbor => !m_ClosedList.Contains(neighbor)))
             {
-                if (m_ClosedList.Contains(neighbor))
-                {
-                    continue;
-                }
-
                 if (!neighbor.isWalkable)
                 {
                     m_ClosedList.Add(neighbor);
@@ -104,10 +95,10 @@ public class Pathfinding
                 if (neighbor.isWalkable && neighbor.x != currentNode.x && neighbor.y != currentNode.y)
                 {
                     if (neighbourList.Any(node => !node.isWalkable 
-                                                  && (node.x == neighbor.x + 1 
-                                                  || node.x == neighbor.x - 1 
-                                                  || node.y == neighbor.y + 1 
-                                                  || node.y == neighbor.y - 1)))
+                            && (node.x == neighbor.x + 1 
+                                || node.x == neighbor.x - 1 
+                                || node.y == neighbor.y + 1 
+                                || node.y == neighbor.y - 1)))
                     {
                         continue;
                     }
