@@ -20,6 +20,8 @@ public class WorkerUnit : Unit
         _unitManager = _transform.GetComponent<WorkerManager>();
         ((WorkerManager)_unitManager).Initialize(this);
         WorkerAI = _transform.GetComponent<ArtificialWorker>();
+        WorkerAI.ResourceType = Random.Range(0, 10) < 5 ? BaseResources.Stone : BaseResources.Gold;
+        WorkerAI.ResourceNodeType = Random.Range(0, 10) < 5 ? ResourceNodeEnums.Stone : ResourceNodeEnums.Gold;
         Inventory = _transform.GetComponent<WorkerInventory>();
         WorkerAI.houseReference = houseReference;
     }
